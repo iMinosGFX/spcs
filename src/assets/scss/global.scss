@@ -1,6 +1,6 @@
 @import 'simple-grid';
 
-$primary: #216A9A;
+$primary: #191C4D;
 $primary-dark-theme: #3498db;
 $secondary : #F1EFFE;
 $purple: #e7d1e4;
@@ -167,7 +167,7 @@ $shadows:
 }
 
 body{
-    background-color: #F2EFFB;
+    background-color: #fff;
     position: relative;
 }
 
@@ -189,13 +189,13 @@ body{
 
 
 .page-title{
-    // background: #fff;
     width: 100%;
     border-bottom: 1px solid rgba(22,125,255,0.15);
     padding-left: 20px;
     padding-bottom: 18px;
     font-weight: 400;
     font-size: 1.5rem;
+    background: #F2EFFB;
 }
 
 .dashboard-header{
@@ -204,7 +204,6 @@ body{
 
 .main-content{
     background: #fff;
-    height: calc(100vh - 7.6rem);
 }
 
 .setting-container{
@@ -212,7 +211,7 @@ body{
     padding-left: 1rem;
 }
 
-*{
+*:not(svg){
     box-sizing: border-box !important;
 }
 

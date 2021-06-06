@@ -52,7 +52,7 @@ const components = {
         module: 1,
     },
     inventory: {
-        component: 'Inventory',
+        component: 'Storages',
         url: '/inventory',
         title: 'Inventaire',
         icon: faWarehouse,

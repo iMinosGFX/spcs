@@ -63,6 +63,5 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "src", "index.html"),
     }),
-    new webpack.EnvironmentPlugin(['REACT_APP_API_BASE_URL'])
   ],
 };

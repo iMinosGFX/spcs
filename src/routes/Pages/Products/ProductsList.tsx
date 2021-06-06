@@ -43,7 +43,7 @@ const ProductsList = () => {
 
     const getData = e => {
     	const {offset, perPage, filters, sorter} = e
-    	ProductsAPI.findAllBatteries({
+    	ProductsAPI.findAllProducts({
     		...filters,
             sort: sorter,
     		size: perPage,
@@ -61,7 +61,6 @@ const ProductsList = () => {
             data={data}
             isFilter
             filtersList={filters}
-
             filterParsedType="fuzzy"
             onDataChange={(e) => getData(e)}/>		
         </>
