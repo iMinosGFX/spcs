@@ -1,0 +1,263 @@
+header {
+    position: absolute;
+    z-index: 49;
+    width: 100%;
+    height: $header-height;
+    background: $gray-light;
+    color:$gray-dark;
+    box-shadow: $shadow-md;
+    .company-name{
+        line-height: $header-height;
+        font-size: 27px;
+        font-weight: 600;
+        width: max-content;
+        margin-left: 20px;
+        float: left;
+    }
+    .header-right{
+        float: right;
+        margin-right: 4rem;
+        line-height: $header-height;
+    }
+    .user-header{
+        float: right;
+    }
+    .btn-list{
+        float: left;
+        color:$gray-light;
+        line-height:$header-height;
+        padding-right: 40px;
+    }
+    .header-option{
+        float: left;
+        line-height: $header-height;
+        font-size: 20px;
+        margin-left: 1rem;
+        svg{
+            cursor: pointer;
+        }
+        i{
+            padding-left: 1rem;
+        }
+        .header-option-content{ //Animation
+            position: absolute;
+            top: $header-height+20px;
+            right: 1px;
+            z-index: 2;
+            display: none;
+            transform: translateY(-1rem) translateX(-2rem);
+            width: max-content;
+            background: $gray-light;
+            padding: 5px 25px;
+            color:$gray-dark;
+            border-radius: $radius-sm;
+            text-align: center;
+            box-shadow: $shadow;
+            animation: slide-up .2s ease-in-out;
+            span{
+                font-size: 14px;
+                padding: 5px 10px;
+                display: block;
+            }
+            span.option-span,a{
+            padding: 5px 10px;
+            margin: 5px;
+            display: block;
+            font-size: 15px;
+            border-radius: $radius-sm;
+            transition: .3s;
+            cursor: pointer;
+            &:hover{
+                background: #E8E8E8;
+            }
+            i{
+                border: none !important;
+                padding-left: 0;
+                padding-right: .3rem;
+            }
+            }
+            .divider{
+                width: 80%;
+                margin:0 auto;
+                border-bottom: 1px solid #DCDCDC;
+            }
+        }
+    }
+    .user-block{
+        height: $header-height;
+        line-height: $header-height;
+        float: left;
+        .account-infos{
+            width: max-content;
+            position: relative;
+            top:50%;
+            transform: translateY(-50%);
+            float: left;
+            span{
+                vertical-align: middle;
+                text-align: right;
+                padding-left: 1rem;
+                display: block;
+                font-size: 14px;
+            }
+        }
+        &:before{
+            float: left;
+            position: relative;
+            top:50%;
+            transform: translateY(-50%);
+            font-size: 2.5rem;
+        }
+    }
+    #nav-btn{
+        display: none;
+        position: relative;
+        margin-top:17px;
+        width: 40px;
+        height: 35px;
+        cursor: pointer;
+        float: left;
+        margin-left: 20px;
+        transform: rotate(180deg);
+        span{
+            display: block;
+            position: absolute;
+            height: 5px;
+            background: currentColor;
+            border-radius: 20px;
+            opacity: 1;
+            left: 0;
+            -webkit-transition: width .3s margin .3s;
+            -moz-transition: width .3s, margin .3s;
+            -ms-transition: width .3s, margin .3s;
+            transition: width .3s, margin .3s;
+            &:nth-child(1){
+                top: 0px;
+                width: 30%;
+            }
+            &:nth-child(2){
+                top: 13px;
+                width: 50%;
+            }
+            &:nth-child(3){
+                top: 26px;
+                width: 80%;
+            }
+        }
+    }
+    #nav-btn.open{
+        span{
+            width: 100%;
+            margin: 0;
+        }
+    }
+    .header-dropdown{
+        position: relative;
+        height: $header-height;
+        line-height: $header-height;
+        cursor: pointer;
+        margin-right: 1rem;
+        float: left;
+        padding: 0 1rem;
+        font-size: 15px;
+        &:hover{
+            background: rgba(0,0,0,0.05)
+        }
+        .dropdown-content{
+            position: absolute;
+            top: $header-height+10px;
+            left: 50%;
+            z-index: 2;
+            display: none;
+            transform: translateY(-1rem) translateX(-50%);
+            min-width: 100px;
+            width: max-content;
+            background: $gray-light;
+            padding: 5px 5px;
+            border-radius: $radius-sm;
+            text-align: center;
+            a{
+                padding: 10px;
+                margin: 5px;
+                display: block;
+                font-size: 1rem;
+                border-radius: $radius-sm;
+                &:hover{
+                    background: rgba(#000000, .1);
+                }
+            }
+        }
+        &:hover{
+            .dropdown-content{
+                display: block;
+            }
+        }
+    }
+    
+}
+
+
+@keyframes slide-up {
+    0% { opacity: 0; top:100px; }   
+  100% { opacity: 1; top:90px; }
+}
+
+
+@media only screen and (max-width: $breakpoint-md) {
+    header{
+        .company-name{
+            padding-left: 10px;
+            padding-right: 10px;
+            min-width: max-content;
+            font-size: 24px;
+        }
+        button{
+            display: none;
+        }
+        .user-header{
+            float: right;
+        }
+        .header-right{
+            margin-right: 1rem !important;
+        }
+        .header-dropdown{
+            line-height: 60px;
+            border: none !important;
+            height: auto;
+            margin: none;
+            display: inline-block;
+            .dropdown-content{
+                top:80px;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: $breakpoint-small){
+    header{
+        width: 100%;
+        position: fixed;
+        top:0;
+        border-radius: 0;
+        .company-name{
+            min-width: max-content;
+            font-size: 19px;
+            margin-left: 0;
+        }
+        #nav-btn{
+            display: block;
+            float: right;
+            margin-right: 15px;
+        }
+        .user-block{
+            position: absolute;
+            left: 20px;
+        }
+        .accountName, .accountRole{
+            text-align: left !important;
+        }
+        // .header-right{
+        //     display: none;
+        // }
+    }
+}

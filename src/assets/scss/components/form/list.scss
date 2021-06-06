@@ -1,0 +1,37 @@
+.list{
+    padding-left: 0;
+    list-style: none;
+    width: 80%;
+    margin: auto;
+    border-radius: $radius-sm;
+    .item{
+        padding-top: 15px;
+        padding-bottom: 15px;
+        padding-left: 30px;
+        color: $gray-dark-subcolor;
+        &:first-of-type{
+            border-radius: $radius-sm $radius-sm 0 0;
+        }
+        &:last-of-type{
+            border-radius: 0 0 $radius-sm $radius-sm;
+        }
+        i{
+            cursor: pointer;
+            float: right;
+            font-size: 20px;
+            padding-top: 3px;
+            padding-right: 15px;
+        }
+        &:nth-of-type(even) { 
+            background: $gray-light; 
+            -webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.13);
+            -moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.13);
+            box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.13);
+        }
+        &:nth-of-type(odd){ 
+            color:$gray-light !important;
+        }
+    }
+}
+
+

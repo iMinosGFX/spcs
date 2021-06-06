@@ -1,0 +1,23 @@
+ul.paginationTable{
+    list-style: none;
+    width: max-content;
+    padding-left: 0;
+    li{
+        float: left;
+        background: #F0F0F0;
+        border-radius: 5px;
+        padding: 6px 0;
+        margin: 10px;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        &.active{
+            background: $primary;
+            color: #fff;
+        }
+        a{
+            padding: 10px;
+            border-radius: $radius-sm;
+        }
+    }
+}

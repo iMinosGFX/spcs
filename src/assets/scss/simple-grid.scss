@@ -1,0 +1,259 @@
+// SIMPLE GRID - SASS/SCSS
+@import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap');
+
+// fonts
+
+$font-family: 'Poppins', Helvetica, sans-serif;
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-heavy: 600;
+$font-height: 1.4;
+
+*{
+  font-weight: 00;
+}
+// colors
+$dark-gray: #2f3542;
+
+// universal
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  left: 0;
+  top: 0;
+  font-size: 93%;
+}
+
+* {
+  font-family: $font-family;
+  line-height: $font-height;
+}
+
+.blur-root{
+  -webkit-filter: blur(2px);
+  -moz-filter: blur(2px);
+  -o-filter: blur(2px);
+  -ms-filter: blur(2px);
+  filter: blur(2px);
+}
+
+// typography
+
+h1,h2,h3,h4,h5,h6{
+  color: $dark-gray;
+  margin: 0;
+}
+
+h1 {
+  font-size: 2.1rem;
+  font-weight: 500;
+}
+
+h2 {
+  font-size: 1.7rem;
+  font-weight: 500;
+}
+
+h3 {
+  font-size: 1.275rem;
+}
+
+h4 {
+  font-size: 1.025rem;
+}
+
+h5 {
+  font-size: 0.9rem;
+}
+
+h6 {
+  font-size: 0.82rem;
+}
+
+p {
+  font-weight: 200;
+  line-height: 1.6;
+  color: $dark-gray;
+}
+
+a{
+  text-decoration: none;
+  color: inherit;
+}
+
+.font-light {
+  font-weight: $font-weight-light;
+}
+
+.font-regular {
+  font-weight: $font-weight-regular;
+}
+
+.font-heavy {
+  font-weight: $font-weight-heavy;
+}
+
+.font-underline{
+  text-decoration: underline;
+}
+
+.font-italic{
+  font-style: italic;
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+// utility
+
+.left {
+  text-align: left;
+  margin-right: auto !important;
+  margin-left: 0 !important;
+}
+
+.right {
+  text-align: right;
+  margin-right: 6px !important;
+  margin-left: auto !important;
+}
+
+.center {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.text-center{
+  text-align: center;
+}
+
+.align{
+  display: inline-block !important;
+}
+
+.justify {
+  text-align: justify;
+}
+
+.hidden-sm {
+  display: none;
+}
+
+.vertical-center{
+  position: absolute;
+  top:50%;
+  transform: translateY(-50%);
+}
+
+.clear{
+  clear: both;
+}
+
+// grid
+$width: 98%;
+$gutter: 2%;
+//Personal Breakpoint
+$breakpoint-lg: 1200px; //75em
+$breakpoint-md: 896px; //60em
+$breakpoint-small:540px; //540px
+
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.row {
+  position: relative;
+  width: 100%;
+}
+
+.row [class^="md"] {
+  float: left;
+  margin: .7rem .6%;
+  min-height: 0.125rem;
+}
+.row [class^="sm"] {
+  float: left;
+  margin: .7rem 1%;
+  min-height: 0.125rem;
+}
+.row [class^="lg"] {
+  float: left;
+  margin: .7rem 1%;
+  min-height: 0.125rem;
+}
+
+.row::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.md-1,
+.md-2,
+.md-3,
+.md-4,
+.md-5,
+.md-6,
+.md-7,
+.md-8,
+.md-9,
+.md-10,
+.md-11,
+.md-12 {
+  width: $width;
+}
+
+.sm-1 { width:($width / 12) - ($gutter * 11 / 12); }
+.sm-2 { width: ($width / 6) - ($gutter * 10 / 12); }
+.sm-3 { width: ($width / 4) - ($gutter * 9 / 12); }
+.sm-4 { width: ($width / 3) - ($gutter * 8 / 12); }
+.sm-5 { width: ($width / (12 / 5)) - ($gutter * 7 / 12); }
+.sm-6 { width: ($width / 2) - ($gutter * 6 / 12); }
+.sm-7 { width: ($width / (12 / 7)) - ($gutter * 5 / 12); }
+.sm-8 { width: ($width / (12 / 8)) - ($gutter * 4 / 12); }
+.sm-9 { width: ($width / (12 / 9)) - ($gutter * 3 / 12); }
+.sm-10 { width: ($width / (12 / 10)) - ($gutter * 2 / 12); }
+.sm-11 { width: ($width / (12 / 11)) - ($gutter * 1 / 12); }
+.sm-12 { width: $width; }
+
+@media only screen and (min-width: $breakpoint-md){
+  .md-1 { width:($width / 12) - ($gutter * 11 / 12)}
+  .md-2 { width: ($width / 6) - ($gutter * 10 / 12)}
+  .md-3 { width: ($width / 4) - ($gutter * 9 / 12)}
+  .md-4 { width: ($width / 3) - ($gutter * 8 / 12)}
+  .md-5 { width: ($width / (12 / 5)) - ($gutter * 7 / 12)}
+  .md-6 { width: ($width / 2) - ($gutter * 6 / 12)}
+  .md-7 { width: ($width / (12 / 7)) - ($gutter * 5 / 12)}
+  .md-8 { width: ($width / (12 / 8)) - ($gutter * 4 / 12)}
+  .md-9 { width: ($width / (12 / 9)) - ($gutter * 3 / 12)}
+  .md-10 {  width: ($width / (12 / 10)) - ($gutter * 2 / 12)}
+  .md-11 { width: ($width / (12 / 11)) - ($gutter * 1 / 12)}
+  .md-12 { width: $width }
+}
+
+
+@media only screen and (min-width: $breakpoint-lg){
+  .lg-1 { width:($width / 12) - ($gutter * 11 / 12);  }
+  .lg-2 { width: ($width / 6) - ($gutter * 10 / 12);}
+  .lg-3 { width: ($width / 4) - ($gutter * 9 / 12)}
+  .lg-4 { width: ($width / 3) - ($gutter * 8 / 12)}
+  .lg-5 { width: ($width / (12 / 5)) - ($gutter * 7 / 12) }
+  .lg-6 { width: ($width / 2) - ($gutter * 6 / 12)}
+  .lg-7 { width: ($width / (12 / 7)) - ($gutter * 5 / 12) }
+  .lg-8 { width: ($width / (12 / 8)) - ($gutter * 4 / 12)}
+  .lg-9 { width: ($width / (12 / 9)) - ($gutter * 3 / 12)}
+  .lg-10 {  width: ($width / (12 / 10)) - ($gutter * 2 / 12)}
+  .lg-11 { width: ($width / (12 / 11)) - ($gutter * 1 / 12)}
+  .lg-12 { width: $width; }
+}
+
+
+
+

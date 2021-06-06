@@ -1,0 +1,183 @@
+html{
+    font-family: Montserrat;
+}
+
+body{
+    background: $lavanda;
+}
+
+/* -Navigation part- */
+.navigation{
+    width: 100%;
+    height: 100%;
+    .form-login{
+        position: absolute;
+        z-index: 2;
+        top:50%;
+        left: 50%;
+        width: 600px;
+        height: 480px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: $shadow-xl;
+        transform: translateX(-50%) translateY(-50%);
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active {
+            -webkit-transition: "color 9999s ease-out, background-color 9999s ease-out";
+            -webkit-transition-delay: 9999s;
+        }
+        h1{
+            margin-top: 80px;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+        .inputContainer{
+            display: flex;
+            width: 100%;
+            position: relative;
+            .icon{
+                position: absolute;
+                width: 25px;
+                height: 60px;
+                left: 18%;
+                color:#878787;
+            }
+        }
+        .ipt_login{
+            height: 60px;
+            max-width: 70%;
+            display: block;
+            margin-right: auto;
+            margin-left: auto;
+            padding-left: 70px;
+            font-size: 18px;
+        }
+        .ipt_mail{
+            background:#E8E8E8;
+            box-shadow: none;
+            border-radius: 5px 5px 0 0;
+            margin-bottom: 0;
+        }
+        .ipt_pass{
+            box-shadow: $shadow-lg;
+            border-radius: 0 0 5px 5px;
+            background: #fff;
+        }
+        .ipt_email_pass{
+            background:#E8E8E8;
+            box-shadow: none;
+            border-radius: 5px;
+        }
+        button{
+            margin-top: 50px;
+        }
+        .forgotPassBtn{
+            font-size: 15px;
+            padding-top: 10px;
+            display: block;
+            text-align: right;
+            margin: 0 auto;
+            width: 80%;
+        }
+        .forgotPassGoBack{
+            font-size: 16px;
+            padding-top: 30px;
+            display: block;
+            text-align: center;
+            margin: 0 auto;
+            width: 80%;
+        }
+    }
+    .navigation-left{
+        height: 100%;
+        width: 50%;
+        float: left;
+        position: fixed;
+        z-index: 1;
+        background-color: $primary;
+        padding-left: 20px;
+        padding-top: 20px;
+        background-size: cover;
+        img{
+            width: 50%;
+            -webkit-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+            position: absolute;
+            top: 50%;
+            left: 31%;
+        }
+        .optaLabel{
+            position: absolute;
+            display: block;
+            bottom: 50px;
+            h2{
+                margin-bottom: 10px;
+            }
+            h3{
+                margin-top: 10px;
+            }
+            .divider{
+                width: 40%;
+                border-bottom: 2px solid #fff;
+            }
+        }
+    }
+    .navigation-right{
+        position: relative;
+        z-index: 1;
+        float: right;
+        width: 50%;
+        height: max-content;
+        background: #fff;
+        min-height: 100vh;
+        max-height: 100vh;
+        overflow: hidden;
+        img{
+            width: 50%;
+            
+        }
+    }
+    .formForgotPass{
+        height:50vh;
+        h1{
+            margin-top: 80px;
+        }
+    }
+}
+@media only screen and (max-width: $breakpoint-md) {
+    .navigation{
+        .navigation-left{
+            width: 100%;
+            height: 100%;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            .company-logo{
+                width: 100%;
+                height: 170px;
+                margin-top: 0;
+                img{
+                    max-height: 100%;
+                    max-width: 100%;
+                }
+            }
+        }
+        .form-login{
+            min-width: 50%;
+            max-width: 60%;
+        }
+    }
+}
+
+@media only screen and (max-width: $breakpoint-small) {
+    .navigation{
+        .form-login{
+            min-width: 90% !important;
+            max-width: 90% !important;
+        }
+        .navigation-right{
+            width: 0%;
+        }
+    }
+}

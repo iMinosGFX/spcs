@@ -1,0 +1,85 @@
+
+/* -buttons part- */
+
+button{
+    cursor: pointer;
+}
+
+.btn{
+    display: block;
+    max-width: max-content;
+    text-align: center;
+    padding: .5rem 1rem;
+    border-radius: $radius-sm;
+    margin: 4px;
+    transition: .3s ease;
+    border: none;
+}
+
+input[type=submit], input[type=reset]{
+    padding: .6rem 1.2rem;
+    border: none;
+    border-radius: $radius-sm;
+    cursor: pointer;
+}
+
+
+.btn-lg{
+    padding: 0.8rem 1.5rem;
+    font-size: 1.2rem;
+}
+
+.btn-sm{
+    padding: .3rem 0.8rem;
+    font-size: 0.9rem;
+    line-height: 15px;
+}
+
+.btn-shadow{
+    -webkit-box-shadow:  $shadow-md;
+    -moz-box-shadow:  $shadow-md;
+    box-shadow: $shadow-md;
+    &:hover{
+        -webkit-box-shadow:  $shadow-lg;
+        -moz-box-shadow:  $shadow-lg;
+        box-shadow: $shadow-lg;
+
+    }
+} 
+
+@each $color, $value in $colors {
+    .btn.bg-plain-#{$color}{
+        background: #{$value};
+        font-weight: 500;
+        &:hover{
+            color: #fff !important;
+            background: darken($value, 8%)
+        }
+    } 
+}
+
+@each $color, $value in $colors {
+    .btn.bg-#{$color}{
+        color: #{$value};
+        background: transparentize($value, 0.8);
+        font-weight: 500;
+        color: $value !important;
+        &:hover{
+            color: #fff !important;
+            background: #{$value}
+        }
+    } 
+}
+
+@each $color, $value in $colors {
+    .btn-outline-#{$color}{
+        color: #{$value};
+        background: none;
+        border: 1px solid #{$value} !important;
+        &:hover{
+            color: #fff;
+            background: #{$value}
+        }
+    } 
+}
+

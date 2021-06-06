@@ -1,0 +1,439 @@
+form{
+    position: relative;
+}
+
+fieldset{
+    border-radius: $radius-sm;
+    legend{
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+}
+
+@each $color, $value in $colors {
+    fieldset.#{$color}{border-color: #{$value}}
+}
+
+button:focus {outline:0;}
+
+
+.input-group{
+    padding: 0;
+    margin: 0;
+    padding-bottom: 20px;
+    position: relative;
+    clear: both;
+}
+
+.input-group.group-align{
+    label{
+        width: max-content;
+        float: left;
+        line-height: 3rem;
+    }
+    input{
+        float: right;
+        width: 60%;
+    }
+    
+}
+
+.input-group.right{
+    input{
+        padding-right: 5px;
+    }
+}
+
+.input-group-prepend{
+    position: absolute;
+    left: 0;
+    height: 30px;
+    padding: 14px 10px 7px 10px;
+    text-align: center;
+    min-width: 30px;
+    border-radius: 0 5px 5px 0;
+}
+
+.input-group-append{
+    position: absolute;
+    right: 0;
+    z-index: 2;
+    height: 23px;
+    padding: 14px 5px 8px 5px;
+    background: #F0F0F0;
+    text-align: center;
+    min-width: 30px;
+    border-radius: 0 5px 5px 0;
+    color:$gray-dark;
+    cursor: pointer;
+    color:$dark-gray;
+}
+
+input[type=text],
+input[type=password],
+input[type=email], 
+input[type=search], 
+input[type=date],
+input[type=datetime-local],
+input[type=time],
+input[type=tel],
+input[type=color],
+input[type=number],
+input[type=month],
+input[type=week],
+input[type=url]
+{
+    width: 97%;
+    height: 3rem;
+    margin-bottom: 5px;
+    border: none;
+    display: block;
+    background: #F0F0F0;
+    border-radius: 3px;
+    padding-left: 10px;
+    // transition: .1s;
+    color: $gray-dark;
+    &::placeholder{
+        color: #A9A9A9;
+        opacity: 0.8;
+    }
+    &:focus{
+        outline: 0;
+        border-right: 3px solid $primary;
+    }
+    &:disabled{
+        opacity: .4;
+    }
+}
+
+input[type=date]::-webkit-inner-spin-button, 
+input[type=date]::-webkit-outer-spin-button, 
+input[type=datetime-local]::-webkit-inner-spin-button, 
+input[type=datetime-local]::-webkit-outer-spin-button, 
+input[type=week]::-webkit-inner-spin-button, 
+input[type=week]::-webkit-outer-spin-button, 
+input[type=time]::-webkit-inner-spin-button, 
+input[type=time]::-webkit-outer-spin-button, 
+input[type=month]::-webkit-inner-spin-button, 
+input[type=month]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+input.form-success{
+    border-right: 6px $green solid;
+}
+
+input.form-error{
+    color:$red;
+    background: transparentize($red, .8);
+    &::placeholder{
+        color: $red;
+        opacity: 0.8;
+    }
+}
+
+input[type=color]{
+    width: 4rem;
+    height: 2rem;
+    padding-left: 0;
+}
+
+input[type=file],
+input[type=range]{
+    display: block;
+}
+
+
+textarea{
+    width: 97%;
+    border: none;
+    background: #F0F0F0;
+    border-radius: 5px;
+    padding: 10px;
+    resize: vertical;
+    &::placeholder{
+        color: #C8C8C8;
+    }
+    &:focus{
+        outline: 0;
+    }
+}
+
+select{
+    min-width: 100px;
+    margin-bottom: 5px;
+    height: 3.1rem;
+    border: none;
+    background: #F0F0F0;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    transition: .2s;
+    &::placeholder{
+        color: #C8C8C8;
+        opacity: 0.8;
+    }
+    &:focus{
+        outline: 0;
+    }
+}
+
+form p {
+	position: relative; /* permet de positionner la checkbox cachée */
+}
+
+.check-group {
+    display: block;
+    width: max-content;
+    padding: 5px;
+    margin-bottom: 5px;
+    border-radius: 3px;
+    &:hover{
+        background: rgba($primary,.06);
+        label:before{
+            border: 1px solid $primary;
+        }
+    }
+}
+
+.check-group input {
+    padding: 0;
+    height: initial;
+    width: initial;
+    margin-bottom: 0;
+    display: none;
+    cursor: pointer;
+}
+
+.check-group label {
+    position: relative;
+    cursor: pointer;
+    color: #435f71;
+    white-space: nowrap;
+}
+
+.check-group label:before {
+    content:'';
+    -webkit-appearance: none;
+    border: 1px solid #CCCFDB;
+    transition: all .2s ease;
+    padding: 9px;
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    cursor: pointer;
+    margin-right: 5px;
+    border-radius: 4px;
+    transform: scale(1) translateY(-2px);
+}
+
+.check-group input:checked + label:before{
+    background: $primary;
+}
+
+.check-group input:checked + label{
+    color: $primary
+}
+
+
+.check-group input:checked + label:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 1px;
+    left: 7px;
+    width: 4px;
+    height: 10px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.radio-container {
+    position: relative;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 12px;
+    line-height: 25px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  .radio-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  label.radio-container {
+	display: flex;
+	cursor: pointer;
+	font-weight: 500;
+	position: relative;
+	overflow: hidden;
+	margin-bottom: 0.375em;
+	input {
+		position: absolute;
+		left: -9999px;
+		&:checked + span {
+			background-color: mix(#fff, $primary, 84%);
+			&:before {
+				box-shadow: inset 0 0 0 0.4375em $primary;
+			}
+		}
+	}
+	span {
+		display: flex;
+		align-items: center;
+		padding: 0.375em 0.75em 0.375em 0.375em;
+		border-radius: 99em; // or something higher...
+		transition: 0.1s ease;
+        color: $gray-medium;
+        font-weight: 400;
+		&:hover {
+			background-color: mix(#fff, $primary, 84%);
+		}
+		&:before {
+			display: flex;
+			flex-shrink: 0;
+			content: "";
+			background-color: #fff;
+			width: 1.5em;
+			height: 1.5em;
+			border-radius: 50%;
+			margin-right: 0.375em;
+			transition: 0.1s ease;
+			box-shadow: inset 0 0 0 0.125em $primary;
+		}
+	}
+}
+
+  .input-helper{
+      padding-left: 5px;
+      display: block;
+      color: #BEBEBE;
+  }
+
+  input[type=range]{
+    -webkit-appearance: none;  /* Override default CSS styles */
+    appearance: none;
+    width: 100%; /* Full-width */
+    height: 2px; /* Specified height */
+    background: $gray-dark-subcolor;
+    outline: none; /* Remove outline */
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+    &:hover{
+        opacity: 1; /* Fully shown on mouse-over */
+    }
+}
+
+input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: $shadow-lg;
+    border: 5px solid $gray-dark;
+    cursor: pointer; 
+}
+
+input[type=range]::-moz-range-thumb {
+    width: 22px; 
+    height: 22px; 
+    border-radius: 20px;
+    background: $gray-dark; 
+  }
+
+/* ------------- */
+
+@media only screen and(max-width: $breakpoint-small){
+    .input-group.group-align{
+        input{
+            float: right;
+            width: 70%;
+        }
+    }
+}
+
+[type="checkbox"] {
+    position: absolute;
+    left: -9999px;
+}
+.switches {
+    max-width: 25%;
+    width: 95%;
+    padding-left: 0px;
+    border-radius: 5px;
+    color: #435F71;
+    list-style: none;
+}
+.switches li {
+    position: relative;
+    counter-increment: switchCounter;
+}
+.switches label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    cursor: pointer;
+}
+.switches span:last-child {
+    position: relative;
+    width: 50px;
+    height: 26px;
+    border-radius: 15px;
+    transition: all 0.3s;
+    background: #a9acad;
+}
+.switches span:last-child::before,
+.switches span:last-child::after {
+    content: "";
+    position: absolute;
+}
+.switches span:last-child::before {
+    left: 1px;
+    top: 1px;
+    width: 24px;
+    height: 24px;
+    background: #e8e9ed;
+    border-radius: 50%;
+    z-index: 1;
+    transition: transform 0.3s;
+}
+.switches span:last-child::after {
+    top: 50%;
+    right: 8px;
+    width: 12px;
+    height: 12px;
+    transform: translateY(-50%);
+    background-size: 12px 12px;
+}
+.switches [type="checkbox"]:checked + label span:last-child {
+    background: #00d084;
+}
+.switches [type="checkbox"]:checked + label span:last-child::before {
+    transform: translateX(24px);
+}
+.switches [type="checkbox"]:checked + label span:last-child::after {
+    width: 14px;
+    height: 14px;
+    /*right: auto;*/
+    left: 8px;
+    background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/checkmark-switcher.svg');
+    background-size: 14px 14px;
+}
+
+
+@media only screen and (max-width: 540px){
+    .switches {
+        max-width: 95%;
+    }
+}

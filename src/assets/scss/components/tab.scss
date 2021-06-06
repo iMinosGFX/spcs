@@ -1,0 +1,108 @@
+/* -Tabs Part- */
+.tab{
+    width: 100%;
+    .tab-header{
+        border-radius: $radius-sm $radius-sm 0 0;
+        ul{
+            list-style: none;
+            height: 60px;
+            margin-bottom: 0;
+            padding-left: 0 !important;
+            background: $gray-light;
+            border-bottom:5px solid;
+            border-color: $gray-dark;
+            width: max-content;
+            li{
+                margin: 0 !important;
+                display: inline-block;
+                width: max-content;
+                padding: 0 20px;
+                line-height: 60px;
+                color:$gray-dark-subcolor;
+                cursor: pointer;
+                &.active{
+                    background:$gray-dark;
+                    color: $gray-light;
+                }
+            }
+        }
+    }
+    .tab-content{
+        min-height: 300px;
+        background: #fff;
+        border-top: none;
+        border-radius: 0 0 $radius-sm $radius-sm;
+        .tab-content-section{
+            padding: 10px 20px;
+            display: none;
+            &:first-of-type{
+                display: block;
+            }
+        }
+    }
+}
+
+@each $color, $value in $colors {
+    .tab.tab-#{$color}{.tab-header{ul{border-color: #{$value};}li{&.active{background:#{$value};color:$gray-light}}}}
+}
+
+
+.tab-dropdown{
+    width: 100%;
+    .tab-dropdown-header{   
+        margin: 0 !important;
+        height: 50px;
+        background: $gray-light;
+        color: $gray-dark;
+        padding: 10px 20px;
+        z-index: 2;
+        position: relative;
+        line-height: 50px;
+        font-size: 15px;
+        border-radius: $radius-sm;
+        margin-bottom: 5px !important;
+        cursor: pointer;
+        .tab-dropdown-btn{
+            position: absolute;
+            transform: translateX(50px);
+            margin-top: 25px;
+            &:after{
+                position: absolute;
+                display: block;
+                content: '';
+                width: 10px; height: 10px;
+                top: 50%; right: 25px;
+                margin-top: -3px;
+                border-bottom: 2px solid currentColor;
+                border-right: 2px solid currentColor;
+                transform: rotate(45deg) translateY(-50%);
+                transition: all .4s ease-in-out;
+                transform-origin: 50% 0;
+            }
+        }
+        .tab-dropdown-btn.close:after{
+            margin-top: 3px;
+            transform: rotate(-135deg) translateY(-50%);
+        }
+    }
+    .tab-dropdown-content{
+        transform: translateY(-10px);
+        border-radius: 0 0 $radius-sm $radius-sm;
+        display: none;
+        background: #FAFAFA;
+        position: relative;
+        z-index: 1;
+        padding: 15px 10px 10px 10px;
+        p{
+            margin: 0 !important;
+        }
+    }
+}
+
+
+@media only screen and (max-width: $breakpoint-md) {
+    .tab-header{
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}

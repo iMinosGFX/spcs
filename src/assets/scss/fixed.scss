@@ -1,0 +1,395 @@
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+  }
+
+.form-group {
+    padding-bottom: 10px;
+}
+
+.reactSelectInputAdmin__input{
+    input{
+        height: 2rem !important;
+        box-shadow: none !important;
+        background: none !important;
+    }
+}
+
+.reactSelectInput__control{
+    background-color: #F0F0F0 !important;
+    border: none !important;
+    width: 99% !important;
+}
+
+.reactSelectInput__input{
+    input{
+        height: 2rem !important;
+    }
+}
+
+.reactSelectInputError__placeholder{
+    color: #A9A9A9 !important
+}
+
+.reactSelectInputError__control{
+    background: transparentize($red, .8) !important;
+    border: none !important;
+    width: 99% !important;
+}
+
+.reactSelectInputError__input{
+    input{
+        height: 1.9rem !important;
+    }
+}
+
+.reactSelectInputError__placeholder{
+    color:$red !important;
+}
+
+.dispoCalendar .fc-bg-event {
+    opacity: .7 !important;
+}
+
+.popup-content{
+    width: 70% !important;
+}
+
+.telInput{
+    height: 45px !important;
+    border:none !important;
+    background: #F0F0F0 !important;
+    width:98% !important;
+}
+
+.telInputError{
+    color:$red !important;
+    background: transparentize($red, .8) !important;
+}
+
+.telInputBtn{
+    border:none !important;
+    background: #E0E0E0 !important;
+}
+
+.initateAccountContainer{
+    height: max-content !important;
+    width: 80% !important;
+}
+
+.radioChartsContainer{
+    text-align: center;
+}
+
+.radioChartsContainer label {
+    display: inline-block;
+    width: max-content;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+    transition: all 0.2s;
+    box-shadow: $shadow-lg;
+    cursor: pointer;
+  }
+  
+  .radioChartsContainer input[type="radio"] {
+    display: none;
+  }
+  
+  .radioChartsContainer input[type="radio"]:checked + label {
+    background: $purple;
+    color: $gray-light;
+  }
+
+  .highcharts-credits{
+      display: none !important;
+  }
+
+$light: #efefef;
+
+.hidden {
+    display: none;
+}
+
+.fc-timegrid-slot.fc-timegrid-slot-lane{
+    background: transparentize($color: #000, $amount: .9);
+}
+
+.AllIsOkChecks{
+    background: transparentize($color: $green, $amount: .75);
+    color: $green;
+    min-width: 25%;
+    max-width: fit-content;
+    margin: auto;
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 0 20px;
+    svg{
+        transform: translateY(5px);
+        padding-right: 10px;
+    }
+    span{
+        font-weight: 500;
+        font-size: 15px;
+    }
+}
+
+.checkLegendContainer{
+    display: block;
+    width: fit-content;
+    margin: auto;
+    padding-bottom: 40px;
+    .checkLegendItem{
+        float: left;
+        padding-left: 30px;
+        &:first-of-type{
+            padding-left: 0;
+        }
+        span{
+            padding-left: 5px;
+            font-weight: 500;
+            font-size: 15px;
+            color: $gray-dark-subcolor;
+        }
+    }
+}
+
+.autosuggest-container{
+    float: right;
+    margin-top: -3px;
+    width: 40%;
+    .react-autosuggest__input{
+        background: #fff;
+        height: 35px;
+        line-height: 35px;
+    }
+    .react-autosuggest__suggestions-container{
+        transform: translateY(-5px);
+        position: relative;
+        z-index: 9999;
+        background: #fff;
+    }
+    .react-autosuggest__suggestions-list{
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        box-shadow: $shadow-md;
+    }
+    .react-autosuggest__suggestion{
+        padding: 10px;
+        cursor: pointer;
+    }
+    .react-autosuggest__suggestion--highlighted{
+        background: #F0F0F0;
+    }
+}
+
+.reactSelectInputChecksGantt__control{
+    background-color: #fff !important;
+    border: none !important;
+    width: 100% !important;
+}
+
+.reactSelectInputChecksGantt__input{
+    input{
+        height: 30px !important;
+    }
+}
+
+.FilteredMultiSelect{
+    padding:30px 0;
+    .FilteredMultiSelect__filter{
+        width: 98% !important;
+    }
+    
+    .FilteredMultiSelect__select{
+        width: 100%;
+        min-height: 250px;
+        padding-left: 0;
+        background: #f0f0f0;
+        option{
+            font-size: 16px;
+            padding: 5px 10px;
+            text-align: center;
+            color: $primary;
+        }
+    }   
+    
+    .FilteredMultiSelect__button{
+        display: block;
+        max-width: max-content;
+        text-align: center;
+        padding: .6rem 1.2rem;
+        border-radius: $radius-sm;
+        margin: 4px;
+        transition: .3s ease;
+        border: none;
+        margin: auto;
+        &:hover{
+            box-shadow: $shadow-md;
+        }
+    }
+}
+
+ul.FilteredMultiSelectList{
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none;
+    min-height: 20px;
+    background: $secondary;
+    border-radius: $radius-sm;
+    max-height: 300px;
+    overflow-y: auto;
+    li{
+        padding: 10px;
+        font-size: 16px;
+        text-align: center;
+        svg{
+            margin-left: 10px;
+            color: $gray-dark-subcolor;
+            cursor: pointer;
+        }
+        &:nth-child(even){
+            background: #e0def1;
+        }
+    }
+}
+
+.fc-icon-fa {
+    font-family: FontAwesome;
+}
+.fullscreen-enabled {
+    background: #fff;
+    .fc{
+        height: 100% !important;
+    }
+}
+
+.resourceSlot.fc-timegrid-slot {
+    height: 35px !important; // 1.5em by default
+    border-bottom: 0 !important;
+}
+
+  /* DayPicker styles */
+
+  .DayPicker {
+    display: inline-block;
+    font-size: 1rem;
+    width: 100%;
+  }
+  
+  
+  .DayPicker-wrapper {
+    position: relative;
+    width: max-content;
+    margin: 0 auto;
+    flex-direction: row;
+    padding-bottom: 1em;
+  
+    -webkit-user-select: none;
+  
+       -moz-user-select: none;
+  
+        -ms-user-select: none;
+  
+            user-select: none;
+  }
+  
+  .DayPicker--interactionDisabled .DayPicker-Day {
+    cursor: default;
+  }
+  
+  .DayPicker-Footer {
+    padding-top: 0.5em;
+  }
+  
+  .DayPicker-TodayButton {
+    border: none;
+    background-color: transparent;
+    background-image: none;
+    box-shadow: none;
+    color: #11224E !important;
+    border: 1px solid #11224E !important;
+    padding: 8px 12px;
+    border-radius: 5px;
+    display: block;
+    margin: auto;
+    font-size: 0.875em;
+    cursor: pointer;
+    transition: .3s;
+  }
+  .DayPicker-TodayButton:hover{
+    background-color:#11224E !important;
+    color:#fff !important;
+  }
+  
+  
+  /* Default modifiers */
+  
+  .DayPicker-Day--today {
+    color: #11224E !important;
+    font-weight: 900;
+    background-color: #EAECEC;
+  }
+  
+  .DayPicker-Day--outside {
+    color: #D8D8D8;
+    cursor: default;
+  }
+  
+  .DayPicker-Day--disabled {
+    color: #DCE0E0;
+    cursor: default;
+    /* background-color: #eff1f1; */
+  }
+  
+  /* Example modifiers */
+  
+  .DayPicker-Day--sunday {
+    background-color: #F7F8F8;
+  }
+  
+  .DayPicker-Day--sunday:not(.DayPicker-Day--today) {
+    color: #DCE0E0 !important;
+  }
+  
+  .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
+    position: relative;
+  
+    background-color: #11224E !important;
+    color: #F0F8FF !important;
+  }
+  
+  .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover {
+    background-color: #11224E !important;
+  }
+  
+  .DayPicker:not(.DayPicker--interactionDisabled)
+    .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover {
+    background-color: #F0F8FF;
+  }
+  
+  /* DayPickerInput */
+  
+  .DayPickerInput {
+    display: inline-block;
+  }
+  
+  .DayPickerInput-OverlayWrapper {
+    position: relative;
+  }
+  
+  .DayPickerInput-Overlay {
+    position: absolute;
+    left: 0;
+    z-index: 1;
+    background: white;
+  }

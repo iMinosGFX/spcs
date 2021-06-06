@@ -1,0 +1,78 @@
+/* -Toast Part- */
+.toast{
+    display: block;
+    animation: toast-anim .5s ease-out;
+    -webkit-animation: toast-anim .5s ease-out;
+    -moz-animation: toast-anim .5s ease-out;
+    position: fixed;
+    z-index: 10;
+    top:2rem;
+    right: 2rem;
+    width: 20rem;
+    min-height:4.5rem;
+    border-radius: $radius-sm;
+    background: $gray-light;
+    color:$gray-dark;
+    padding: 10px;
+    p{
+        &:first-of-type{
+            margin: 0;
+            text-align: center;
+            width: 100%;
+            border-bottom: 1px solid #BEBEBE;
+        }
+        &:last-of-type{
+            margin: 0;
+            margin-top: 5px;
+        }
+    }
+    .loader{
+        display: block;
+        height: 8px;
+        background: $gray-dark;
+        border-radius: $radius-sm;
+    }
+    .toast-close{
+        float: right;
+        cursor: pointer;
+        padding-right: 5px;
+    }
+}
+
+@-webkit-keyframes toast-anim{
+    0% { opacity: 0; -webkit-transform: translateX(40%); }   
+    25% { opacity: 1; -webkit-transform: translateX(-5%); }   
+    50% { opacity: 1; -webkit-transform: translateX(5%); }   
+    75% { opacity: 1; -webkit-transform: translateX(-5%); }   
+    100% { opacity: 1; -webkit-transform: translateX(0); }
+}
+
+@-moz-keyframes toast-anim {
+    0% { opacity: 0; -moz-transform: translateX(40%); }   
+    25% { opacity: 1; -moz-transform: translateX(-5%); }   
+    50% { opacity: 1; -moz-transform: translateX(5%); }   
+    75% { opacity: 1; -moz-transform: translateX(-5%); }   
+    100% { opacity: 1; -moz-transform: translateX(0); }
+}
+
+@-webkit-keyframes toast-loader {
+    0% {width: 100%;}   
+    100% {width: 0%;}
+}
+@-moz-keyframes toast-loader {
+    0% {width: 100%;}   
+    100% {width: 0%;} 
+}
+
+@each $color, $value in $colors {
+    .toast-#{$color}{background: #{$value};.loader{background: $gray-light;} p {color: $gray-light !important}}
+}
+
+.toast-light{color: $gray-dark !important;.loader{background: $gray-dark;} p {color: $gray-dark !important}}
+
+
+@media only screen and (max-width: $breakpoint-md) {
+    .toast{
+        right: 10px;
+    }
+}

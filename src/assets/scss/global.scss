@@ -1,0 +1,265 @@
+@import 'simple-grid';
+
+$primary: #216A9A;
+$primary-dark-theme: #3498db;
+$secondary : #F1EFFE;
+$purple: #e7d1e4;
+$pink: #ef5777;
+$orange: #ff9f43;
+$yellow: #ffd32a;
+$teal: #10ac84;
+$green: #27ae60;
+$cyan: #01a3a4;
+$blue: #3498db;
+$red: #ee5253;
+$white: #fff;
+$gray-light: #e6e6e6;
+$gray-medium: #435F71;
+$gray-dark: #0f141a;
+$gray-dark-subcolor: #2a3c4e;
+$lavanda: #F0F0F7;
+
+$colors:   
+    (("primary",$primary),    
+    ("secondary",$secondary),    
+    ("purple",$purple),
+    ("pink",$pink),
+    ("orange",$orange),
+    ("yellow",$yellow),
+    ("teal",$teal),
+    ("green",$green),
+    ("cyan",$cyan),
+    ("blue",$blue),
+    ("red",$red),
+    ("white",$white),
+    ("light",$gray-light),
+    ("medium",$gray-medium),
+    ("dark",$gray-dark));
+
+
+$colorsTools:   
+    (("success",$green),
+    ("info",$blue),
+    ("warning",$orange),
+    ("danger",$red));
+
+
+
+@each $color, $value in $colors {
+    .#{$color}{color: #{$value}}
+}
+
+@each $color, $value in $colors {
+    .bg-#{$color}{background: #{$value}}
+}
+
+.gray-light{color: $white}
+.gray-dark{color: $gray-dark}
+.gray-subcolor{color: $gray-dark-subcolor}
+
+
+
+/* -Variables part- */
+$nav-width: 15%;
+$header-height: 60px;
+$radius-sm: 5px;
+$radius-lg: 15px;
+
+$hard-shadow: 0px 2px 0px 0px rgba(126,140,153,0.5);
+$shadow-xs: 0 0 0 1px rgba(0, 0, 0, 0.05);
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+$shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+$shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+$shadow-inner-lg: inset 0 2px 6px 0 rgba(0, 0, 0, 0.15);
+$shadow-outline: 0 0 0 3px rgba(66, 153, 225, 0.5);
+$shadow-none: none;
+
+$shadows:   
+    (("shadow-xs",$shadow-xs),    
+    ("shadow-sm",$shadow-sm),    
+    ("shadow",$shadow),
+    ("shadow-md",$shadow-md),
+    ("shadow-lg",$shadow-lg),
+    ("shadow-xl",$shadow-xl),
+    ("shadow-2xl",$shadow-2xl),
+    ("shadow-inner",$shadow-inner),
+    ("shadow-inner-lg",$shadow-inner-lg),
+    ("shadow-outline",$shadow-outline),
+    ("shadow-none",$shadow-none));
+
+
+@each $shadow, $value in $shadows {
+    .#{$shadow}{box-shadow: #{$value}}
+}
+
+/* -------------- */
+
+.bordered{
+    border: 1px solid #CAD0E0;
+}
+/* ---------- */
+
+
+/* -Imports part- */
+@import 'components';
+@import 'navigation';
+/* ---------- */
+
+@import 'components/header.scss'; 
+
+ @import 'components/nav.scss';
+
+.go-to-top{
+    z-index: 9999;
+    display: none;
+    width: 60px;
+    height: 60px;
+    background: $gray-light;
+    -webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.16);
+    -moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.16);
+    box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.16); 
+    border-radius: 50px;
+    position: fixed;
+    right: 30px;
+    bottom: 30px; 
+    transition: .6s ease-in-out;
+    span{
+        position: absolute;
+        display: none;
+        margin-top: 20px;
+        margin-left: 10px;
+        font-size: 15px;
+    }
+    cursor: pointer;
+    i{
+        font-size: 25px;
+        margin-left: 19px;
+        margin-top:17px;
+        color: $gray-dark;
+        transition: .6s ease-in-out;
+    }
+    &:hover{
+        width: 180px;
+        i{
+            transform: rotateZ(360deg);
+        }
+        span{
+            display: inline;
+            animation: span_fade_in .9s;
+        }
+    }
+}
+
+@keyframes span_fade_in {
+    0% {
+         opacity: 0;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+         opacity: 1;
+    }
+}
+
+body{
+    background-color: #F2EFFB;
+    position: relative;
+}
+
+.dashboard-content{
+    width: calc(100% - 80px);
+    float: right;
+    .container{
+        box-sizing: border-box;
+    }
+}
+
+.dashboard-content.content-with-primary-only{width: calc(100% - 250px);}
+.dashboard-content.content-with-primary-collapse{width: calc(100% - 280px);}
+.dashboard-content.content-with-both-navs{ width: calc(100% - 500px); }
+.dashboard-content.content-with-secondary-nav-collapse{ width: calc(100% - 110px); }
+.dashboard-content.content-with-secondary-nav{ width: calc(100% - 330px); }
+
+
+
+
+.page-title{
+    // background: #fff;
+    width: 100%;
+    border-bottom: 1px solid rgba(22,125,255,0.15);
+    padding-left: 20px;
+    padding-bottom: 18px;
+    font-weight: 400;
+    font-size: 1.5rem;
+}
+
+.dashboard-header{
+    max-height: 9rem;
+}
+
+.main-content{
+    background: #fff;
+    height: calc(100vh - 7.6rem);
+}
+
+.setting-container{
+    padding-top: 1.5rem;
+    padding-left: 1rem;
+}
+
+*{
+    box-sizing: border-box !important;
+}
+
+@import 'components/card.scss';
+
+.icon{
+    display: inline-block;
+    font-size: 100px;
+}
+
+.footer{
+    min-height: 150px;
+    width: 100%;
+    position: absolute;
+    right: 0;
+    background: $gray-light;
+    border-radius: $radius-lg $radius-lg 0 0;
+    padding-top: 20px;
+    margin-top: 10px;
+}
+p{
+    color: #435F71;
+}
+
+@import 'dark-style';
+
+/* ---MEDIA QUERIES--- */
+
+@media only screen and (max-width: $breakpoint-small){
+    .dashboard-content{
+        width: 100% !important;
+        overflow: hidden;
+        position: relative;
+        top: 3rem;
+    }
+    .dashboard-content.content-with-nav .main-content{
+        padding-top: 20px;
+    }
+    .dashboard-content.content-with-nav-collapse .main-content{
+        padding-top: 20px;
+    }
+    .main-content{
+        margin-top: 15px;
+    }
+    .page-title{
+        font-size: 1.2rem;
+    }
+}
+
+@import 'fixed';

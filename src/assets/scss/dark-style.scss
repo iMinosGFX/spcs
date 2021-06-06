@@ -1,0 +1,300 @@
+$gray-medium: #bccde0;
+$input-dark: #272d3a;
+
+#body.darkTheme{
+    background: $gray-dark;
+}
+
+.navbar-dark{
+    // background: $gray-dark-subcolor !important;
+    border-right: 1px solid rgba(0, 0, 0, 0.246);
+    .brand{
+        background: $gray-dark-subcolor;
+    }
+}
+
+.navbar-dark.navbar-extend{
+    width: 200px;
+    ul.topList, ul.bottomList{
+        li.li-container{
+            &:after{
+                color: transparentize($gray-light, 0.5) !important;
+            }
+        }
+    }
+}
+
+//Revoir margin top du container
+.container-dark{
+    p{
+        color: $gray-medium;
+    }
+    .card{
+        background: $gray-dark !important;
+        color: $gray-medium !important;
+    }
+    h1,h2,h3,h4,h5,h6{
+        color: $gray-medium;
+    }
+    span{
+        color: $gray-medium;
+    }
+
+    .main-content{
+        background: $gray-dark-subcolor !important;
+    }
+    .btn.bg-primary{
+        background-color: $primary-dark-theme !important;
+        color: $white !important;
+        font-weight: 500;
+    }
+    input{
+        background-color: $gray-dark;
+        color: $gray-medium;
+    }
+    .card{
+        input{
+            background: $gray-dark-subcolor;
+            &::placeholder{
+                color: transparentize($gray-medium, .7);
+            }
+        }
+    }
+    .card{
+        .reactSelectInput__control{
+            background-color: $gray-dark-subcolor !important;
+            color: $gray-medium !important;
+            .reactSelectInput__placeholder{
+                color: transparentize($gray-medium, .7);
+            }
+        }
+        .reactSelectInput__menu{
+            background: $gray-dark-subcolor;
+            color: $gray-medium !important;
+        }
+    }
+    .reactSelectInput__control{
+        background-color: $gray-dark !important;
+        color: $gray-medium !important;
+    }
+    .reactSelectInput__menu{
+        background: $gray-dark;
+        color: $gray-medium !important;
+    }
+    .reactSelectInput__option{
+        &:hover{
+            background: $gray-dark-subcolor;
+        }
+    }
+    .reactSelectInput__single-value{
+        color: $gray-medium;
+    }
+    .table{
+        tr{
+            border-bottom: 1px solid $gray-dark;
+            td{
+                background: $gray-dark-subcolor;
+                color: $gray-medium;
+            }
+            &:hover{
+                td{
+                    background-color: $gray-dark;
+                }
+            }
+        }
+        .table-icon{
+            background: $gray-dark;
+            &:hover{
+                background: $gray-dark-subcolor;
+            }
+        }
+    }
+
+    ul.paginationTable{
+        li{
+            background: $gray-dark;
+            color: $gray-medium;
+            &.active{
+                background: $primary-dark-theme;
+                color: $gray-dark;
+            }
+        }
+    }
+
+    select{
+        background: $gray-dark;
+        color: $gray-medium;
+    }
+
+    label{
+        color: $gray-medium;
+    }
+    [type=checkbox]:not(:checked) + label:before,
+    [type=checkbox]:checked + label:before {
+        background: $gray-dark;
+    }
+
+    //Custom class & objects
+    .cellContainer{
+        background-color: $gray-dark;
+    }
+    .reactSelectInputChecksGantt__control{
+        background: $gray-dark !important;
+        color: $gray-medium !important;
+    }
+    .label.label-primary{
+        color:$primary-dark-theme;
+        background: transparentize($primary-dark-theme, .9);
+    }
+    .FilteredMultiSelect{
+        .FilteredMultiSelect__select{
+            background: $gray-dark;
+            option{
+                color: $gray-medium;
+            }
+        }
+    }
+    .FilteredMultiSelectList{
+        background: $gray-dark;
+        li{
+            svg{
+                color: $gray-medium;
+            }
+            &:nth-child(even){
+                background: $gray-dark-subcolor;
+            }
+        }
+    }
+    .button-label{
+        background: $gray-dark;
+        &:hover {
+            background: darken($gray-dark-subcolor, 10%);
+            color: darken($gray-light, 10%);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2), inset 0 -3px 0 rgba(0,0,0,0.32);
+        }
+    }
+    .checkLegendContainer{
+        .checkLegendItem{
+            span{
+                color: $gray-medium;
+            }
+        }
+    }
+    .reactSelectInputChecksGantt__control{
+        background-color: $gray-dark !important;
+        color: $gray-medium !important;
+    }
+    .reactSelectInputChecksGantt__menu{
+        background: $gray-dark;
+        color: $gray-medium !important;
+    }
+    .reactSelectInputChecksGantt__option{
+        &:hover{
+            background: $gray-dark-subcolor;
+        }
+    }
+    .reactSelectInputChecksGantt__single-value{
+        color: $gray-medium;
+    }
+}
+
+.footer-dark{
+    background-color: $gray-dark-subcolor !important;
+    color: $gray-medium;
+    p{
+        color: $gray-medium !important;
+    }
+}
+
+
+
+.table-dark{
+    tbody{
+        tr:nth-of-type(even) { 
+            background: $gray-dark; 
+        }
+        td {
+            &:before{
+                color:$gray-light;
+            }
+        }
+    }
+}
+
+.table-container{
+    label{
+        color: $gray-medium;
+    }
+}
+
+input.input-dark, textarea.input-dark, select.input-dark{
+    background: $gray-dark !important;
+    color: $gray-medium !important;
+    &::placeholder{
+        color: $gray-dark-subcolor !important;
+    }
+}
+
+.label-dark{
+    color: $gray-medium;
+}
+
+.list.list-item-dark{
+    .item{
+        &:nth-of-type(even) { 
+            color: $gray-medium;
+            background: $gray-dark !important;
+        }
+    }
+}
+
+.tab-dark{
+    .tab-header{
+        ul li.active{
+            background-color: $gray-dark;
+        }
+        ul{
+            background: $gray-dark-subcolor;
+            li{
+                color: $gray-medium;
+            }
+        }      
+    }
+    .tab-content{
+        background-color: $gray-dark-subcolor !important;
+        border-color: $gray-dark;
+    }
+}
+
+.btn-selector-dark{
+    background: $gray-dark !important;
+    color: $gray-medium !important;
+}
+
+.btn-selector-dark.selected{
+    background: $gray-light !important;
+    color: $gray-dark !important;
+}
+
+.tab-dropdown-dark{
+    color: $gray-medium !important;
+    .tab-dropdown-header{
+        color: $gray-medium;
+        background: $gray-dark-subcolor;
+    }
+    .tab-dropdown-content{
+        background: $gray-medium !important;
+        p{
+            color: $gray-dark;
+        }
+    }
+}
+
+
+@media only screen and (max-width: $breakpoint-md) {
+    .nav-dark{
+        .submenu{
+            background: $gray-dark-subcolor !important;
+        }
+    }
+}

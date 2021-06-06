@@ -1,0 +1,223 @@
+
+.table { 
+    width: 100%;
+    border-collapse: collapse; 
+    padding-top: 20px;
+    overflow: hidden;
+    thead{
+        border-top: 1px solid #DCDCDC;
+        border-bottom: 1px solid #DCDCDC;
+        th, tr, td{
+            border-right: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        tr{
+            height: 60px;
+            &:first-of-type{
+                th{
+                    &:first-of-type{
+                        border-radius: $radius-sm 0 0 0;
+                    }
+                    &:last-of-type{
+                        border-radius: 0 $radius-sm 0 0;
+                    }
+                }
+            }
+        }
+    }
+    tbody{
+        td{
+            border-right: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        tr{
+            height: 50px;
+            td{
+                &:last-of-type{
+                    border-right: none;
+                } 
+            }
+            &:last-of-type{
+                td{
+                    &:first-of-type{
+                        border-radius: 0 0 0 $radius-sm;
+                    }
+                    &:last-of-type{
+                        border-radius: 0 0 $radius-sm 0;
+                    }
+                }
+            }
+            .table-icon{
+                margin-left: 8px;
+                margin-right: 8px;
+                cursor: pointer;
+                font-size: 15px;
+                padding: 5px 8px;
+                border-radius: 50px;
+                transition: .2s;
+                position: relative;
+                background: #F0F0F0;
+                &::before{
+                    content:attr(data-name);
+                    position: absolute;
+                    top: -40px;
+                    left:40%;
+                    transform: translateX(-50%);
+                    background: #505050;
+                    color:#fff;
+                    // box-shadow: $shadow-md;
+                    padding: 5px 10px;
+                    display: none;
+                    border-radius: 4px;
+                }
+                &:hover{
+                    background: #D8D8D8;
+                    &::before{
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
+
+    td, th { 
+        padding: 7px; 
+    }
+    thead.no-border{
+        border-top: none;
+        tr{
+            border-right: none;
+            th{
+                border-right: none;
+            }
+        }
+    }
+    tbody.no-border{
+        border-right: none; 
+        tr td {
+            border-right: none;
+        }
+    }
+}
+
+.table.hoverable{
+    tbody{
+        th{position: relative;}
+        td{
+            position: relative;
+            &:hover {
+
+                &:after{
+                    background-color: $gray-dark;
+                    opacity: .1;
+                    content: '';  
+                    height: 10000px;    
+                    left: 0;
+                    position: absolute;  
+                    top: -5000px;
+                    width: 100%;
+                    z-index: 1;    
+                }
+            }
+        }
+    }
+}
+
+.table.striped{
+    tr:nth-of-type(even) { 
+        background: #F0F0F0; 
+    }
+}
+
+.table-no-border{
+    thead{
+        border: none;
+        tr{
+            border: none;
+        }
+    }
+    tr th{
+        border: none;
+    }
+    tbody{
+        tr{
+            background: none !important;
+            td{
+                border: none;
+                padding: 10px;
+            }
+        }
+    }
+}
+
+.table-sm{
+    th,td{
+        font-size: 0.8rem;
+    }
+}
+
+
+
+
+a.paginate_button.current{
+    color:$gray-light;
+}
+
+@each $color, $value in $colors {
+    .table-#{$color}{thead td{background: #{$value};} th{background: #{$value};} a.paginate_button.current{background: #{$value};}}
+}
+
+.table-light{thead td{background: $gray-light; color:$gray-dark;} th{background: $gray-light;}a.paginate_button.current{color:$gray-dark; background: $gray-light;}}
+
+
+@media only screen and (max-width: $breakpoint-md) {
+
+    
+	table.responsive{ 
+        width: 100% !important; 
+        thead, tbody, th, td, tr { 
+            display: block; 
+        }
+        th{
+            position: absolute;
+            z-index: -999;
+        }
+        tbody{
+            tr{
+            text-align: center;
+                td{
+                    padding: 5px !important;
+                    &:first-of-type{
+                        text-align: center;
+                        font-weight: 600;
+                    }
+                }
+            }
+        }
+        td{
+            text-align: center;
+            border: none;
+            position: relative;
+            &:before{
+                top: 6px;
+                left: 6px;
+                width: 45%; 
+                padding-right: 10px; 
+                white-space: nowrap;
+                /* Label the data */
+                content: attr(data-column);
+                font-weight: bold;
+            }
+        }
+    }
+
+    table.no-responsive{
+        width: 100%;
+        overflow: scroll;
+        white-space: nowrap;
+    }
+
+    @each $color, $value in $colors {
+        .table-#{$color}{td:before{color: #{$value};}}
+    }
+    .table-light{td:before{color: $gray-dark;}}
+
+}

@@ -1,0 +1,18 @@
+.btn-list{
+    button{
+        background: #f1f1f1;
+        border: none;
+        padding: 5px 8px;
+        border-radius: $radius-sm;
+        color: $gray-dark;
+        transition: .5s;
+        &:hover{
+            background: $gray-dark-subcolor;
+            color: $gray-light;
+        }
+    }
+    button.selected{
+        background: $gray-dark-subcolor;
+        color: $gray-light;
+    }
+}  
