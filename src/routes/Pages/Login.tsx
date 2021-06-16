@@ -9,13 +9,15 @@ import AuthAPI from "../../api/AuthAPI"
 import { ConnectedCredentials } from '../../@types/entities';
 import { useForm } from 'react-hook-form';
 import jwtDecode from 'jwt-decode';
+import { useHistory } from 'react-router-dom';
 
-const Login = ({history}) => {
+const Login = () => {
 
     const dispatch = useDispatch()
     const { addToast } = useToasts()
     const { register, handleSubmit, errors } = useForm();
-
+    const history = useHistory()
+    
     const onSubmit = async (data: ConnectedCredentials) => {
         AuthAPI.authenticated(data)
         .then(token => {
@@ -55,7 +57,7 @@ const Login = ({history}) => {
                                 ref={register}/>
                         </div>
                         <button type="submit" className="btn btn-lg bg-primary light center">Se connecter</button>
-                        <p>Pas encore inscrit ? Cliquez <span style={{textDecoration: 'underline'}}>ici</span></p>
+                        <p className="text-center">Pas encore inscrit ? <span className="font-underline pointer" onClick={() => history.push("/register")}> Cliquez ici</span></p>
                     </form>
                 </div>
                 <div className="navigation-left">

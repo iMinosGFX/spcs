@@ -14,15 +14,15 @@ const ListContainer = styled.div`
 
 const ParameterProfile = () => {
 
-    const [checkedOptions, setCheckedOptions] = useState([])
+    // const [checkedOptions, setCheckedOptions] = useState([])
     const {connectedUser} = useSelector<UserState, UserState>((state: UserState) => state)
 
-    useEffect(() => {
-        setCheckedOptions(getQuickActionsList().split(','))
-    }, [])
+    // useEffect(() => {
+    //     setCheckedOptions(getQuickActionsList().split(','))
+    // }, [])
 
     const onSubmit = () => {
-        setQuickActionsList(checkedOptions.join(','))
+        // setQuickActionsList(checkedOptions.join(','))
         location.reload(false)
     }
 
@@ -33,7 +33,7 @@ const ParameterProfile = () => {
             <p>Vous pouvez gérer l'affichage des actions rapides possibles depuis l'icône <FontAwesomeIcon icon={faBolt}/> dans la barre de navigation</p>
             {!!connectedUser && 
                 <ListContainer>
-                    <ul className="switches">
+                    {/* <ul className="switches">
                         {quickActionsList.filter(action => action.roles.includes(connectedUser.role)).map(action => (
                             <li key={action.id}>
                                 <input type="checkbox" id={action.id} checked={checkedOptions.includes(action.id)} onChange={() => setCheckedOptions(_.xor(checkedOptions, [action.id]))}/>
@@ -43,7 +43,7 @@ const ParameterProfile = () => {
                                 </label>
                             </li>
                         ))}
-                    </ul>
+                    </ul> */}
                 </ListContainer>
             }
             <button className="btn bg-primary" onClick={onSubmit}>Sauvegarder</button>
