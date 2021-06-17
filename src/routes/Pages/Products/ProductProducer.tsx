@@ -1,13 +1,19 @@
 import React, {useState, useEffect} from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { clearBreadCrumb, setContentTitle, setSecondaryNav } from '../../../store/navigation/action'
-import Select from 'react-select';
 import ProductsAPI from '../../../api/ProductsAPI';
+import { ExtractStockContent } from '../../../@types/stocks'; 
+import { ExtractStorageContent } from '../../../@types/storages'; 
+import StoragesAPI from '../../../api/StoragesAPI';
+import OrdersAPI from '../../../api/OrdersAPI';
 import { ExtractProductContent } from '../../../@types/products';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faPlus, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import _ from "lodash"
 import useModal from "@optalp/use-modal"
+import Select from 'react-select';
+import { UserState } from '../../../store/user/reducer';
+
 
 type createStorage = {
     price:number
@@ -25,20 +31,26 @@ const ProductProducer = () => {
     const [searchProduct, setsearchProduct] = useState<string>(undefined)
     const [loading, setLoading] = useState<boolean>(true)
     const [products, setProducts] = useState<ExtractProductContent[]>([])
+    const [storagesList, setStoragesList] =  useState<{label:string, value: number}[]>([])
+    const [selectedStorage, setSelectedStorage] = useState<{value:number, label:string}>(null)
     const [selectedProducts, setSelectedProducts] = useState<createStorage[]>([])
     const { Modal, isShowing: isModalShowed, open, close } = useModal();
+    const {connectedUser} = useSelector<UserState, UserState>((state: UserState) => state)
+
+
 
     useEffect(() => {
         dispatch(clearBreadCrumb())
         dispatch(setContentTitle('Produits'))
         dispatch(setSecondaryNav("none"))
-        //InstallationsAPI.findAllInstallations({}).then(installs => setInstallsList(installs.content.map(install => ({value: install.installation.id, label: install.installation.completeAddress}))))
+        StoragesAPI.findAllStoragesLinkToUser(connectedUser.id).then(data => setStoragesList(data.map(storage => ({value: storage.id, label: storage.name}))))
+
     }, [])
 
 
     const handleChange = (e: any) => {
         setLoading(true)
-        const {value} = e.target.value;
+        const value = e.target.value;
         setsearchProduct(value);
         ProductsAPI.findAllProducts({productName: value, size: 10})
         .then(data => {
@@ -137,7 +149,12 @@ const ProductProducer = () => {
                 widthPercentage={80}
                 title="Liste des produits à ajouter"
                 primaryBtn
-                onBtnClick={() => console.log(selectedProducts)}
+                onBtnClick={() => 
+                    console.log("click")
+                    // OrdersAPI.create(1, selectedProducts.map(product => {
+                    //     return <ExtractStockContent>
+                    // })
+                }
                 buttonText="Valider"
                 primaryColor="#27ae60"
                 secondaryColor="#ee5253">
@@ -167,6 +184,14 @@ const ProductProducer = () => {
                            })}
                        </tbody>
                    </table>
+                   <div style={{width: "25%", margin: '0 0', paddingTop: "1%", paddingBottom: "1%"}}>
+                        <Select 
+                            options={storagesList}
+                            classNamePrefix="reactSelectInput"
+                            isSearchable
+                            value={selectedStorage}
+                            onChange={e => setSelectedStorage(e)}/>
+                    </div>
             </Modal>
         </>
     )
