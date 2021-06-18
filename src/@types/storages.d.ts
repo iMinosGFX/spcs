@@ -7,29 +7,20 @@ export enum StorageType{
     FRIDGE
 }
 
-export type CombinedStocks = {
+export interface ExtractStoragesWihStocks extends PaginationObject {
+    content: CombinedStocks[]
+}
+
+
+export interface CombinedStocks {
     id: {
         productCode: string,
         dateExpiration: Date
     },
     price: number,
     totalQuantity: number
-
 }
 
-export type ExtractStorageContent = {
-    id: number
-    userId: number,
-    storageType: StorageType,
-    name: string,
-    street?: string,
-    postalCode: string,
-    city?: string,
-    country?: string,
-    latitude?: string,
-    longitude?: string,
-    completeAddress?: string
-}
 
 export type ExtractStorageWithStocksContent = {
     id: number
@@ -46,9 +37,20 @@ export type ExtractStorageWithStocksContent = {
     combinedStocks: ExtractStoragesWihStocks
 }
 
-export interface ExtractStoragesWihStocks extends PaginationObject {
-    content: CombinedStocks[]
+export type ExtractStorageContent = {
+    id: number
+    userId: number,
+    storageType: StorageType,
+    name: string,
+    street?: string,
+    postalCode: string,
+    city?: string,
+    country?: string,
+    latitude?: string,
+    longitude?: string,
+    completeAddress?: string
 }
+
 
 export interface ExtractStorages extends PaginationObject {
     content: ExtractStorageContent[]
