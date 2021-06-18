@@ -3,8 +3,8 @@ import { ExtractStockContent } from '../@types/stocks';
 import { API_STOCKS } from '../config/api'; 
 
 
-function create(id:number, stocks:ExtractStockContent[]): Promise<ExtractStockContent[]>{
-    return axios.post(`${API_STOCKS}/${id}`)
+function create(id:number, stocks:any): Promise<ExtractStockContent[]>{
+    return axios.post(`${API_STOCKS}/all?storageId=${id}`, stocks)
     .then(response => response.data)
 }
 

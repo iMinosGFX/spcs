@@ -2,10 +2,10 @@ import React, {useState, useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearBreadCrumb, setContentTitle, setSecondaryNav } from '../../../store/navigation/action'
 import ProductsAPI from '../../../api/ProductsAPI';
-import { ExtractStockContent } from '../../../@types/stocks'; 
+import { ExtractStockContent, ExtractStock } from '../../../@types/stocks'; 
 import { ExtractStorageContent } from '../../../@types/storages'; 
 import StoragesAPI from '../../../api/StoragesAPI';
-import OrdersAPI from '../../../api/OrdersAPI';
+import StocksAPI from '../../../api/StocksAPI';
 import { ExtractProductContent } from '../../../@types/products';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faPlus, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
@@ -13,12 +13,13 @@ import _ from "lodash"
 import useModal from "@optalp/use-modal"
 import Select from 'react-select';
 import { UserState } from '../../../store/user/reducer';
+import { useToasts } from 'react-toast-notifications';
+
 
 
 type createStorage = {
     price:number
     threshold:number,
-    carbonFootprint:number,
     dateExpiration: string,
     productCode:string,
     quantity:number,
@@ -28,6 +29,8 @@ type createStorage = {
 const ProductProducer = () => {
 
     const dispatch = useDispatch()
+    const { addToast } = useToasts();
+
     const [searchProduct, setsearchProduct] = useState<string>(undefined)
     const [loading, setLoading] = useState<boolean>(true)
     const [products, setProducts] = useState<ExtractProductContent[]>([])
@@ -65,7 +68,6 @@ const ProductProducer = () => {
         setSelectedProducts([...selectedProducts, {
             price: null,
             threshold:null,
-            carbonFootprint:null,
             dateExpiration: null,
             productCode:product.code,
             quantity:null,
@@ -149,12 +151,27 @@ const ProductProducer = () => {
                 widthPercentage={80}
                 title="Liste des produits à ajouter"
                 primaryBtn
-                onBtnClick={() => 
-                    console.log("click")
-                    // OrdersAPI.create(1, selectedProducts.map(product => {
-                    //     return <ExtractStockContent>
-                    // })
-                }
+
+
+                onBtnClick={() => {
+                    StocksAPI.create(selectedStorage.value, selectedProducts.map(x => {
+                        return ({
+                            price: x.price,
+                            threshold: x.threshold,
+                            dateExpiration: x.dateExpiration,
+                            productCode:x.productCode,
+                            quantity:x.quantity,
+                        })
+                    }))
+                    .then(() => {
+                        addToast("Les produits ont bien été ajouté à votre stock.", {appearance: "success"})
+                        setSelectedProducts([])
+                    })
+                    .catch(() => addToast("Une erreur est survenue pendant la création de votre stock de produits.", {appearance: "warning"}))
+                    
+                }}
+
+
                 buttonText="Valider"
                 primaryColor="#27ae60"
                 secondaryColor="#ee5253">
@@ -165,7 +182,6 @@ const ProductProducer = () => {
                                <th>Quantité à ajouter</th>
                                <th>Prix</th>
                                <th>Seuil</th>
-                               <th>Emprunte carbone</th>
                                <th>Date d'expiration</th>
                            </tr>
                        </thead>
@@ -177,7 +193,6 @@ const ProductProducer = () => {
                                         <td><input type="number" step={1} name="quantity" value={sproduct.quantity} onChange={(e) => handleChangeInArray(i, e)}/></td>
                                         <td><input type="number" name="price" value={sproduct.price} onChange={(e) => handleChangeInArray(i, e)}/></td>
                                         <td><input type="number" name="threshold" value={sproduct.threshold} onChange={(e) => handleChangeInArray(i, e)}/></td>
-                                        <td><input type="number" name="carbonFootprint" value={sproduct.carbonFootprint} onChange={(e) => handleChangeInArray(i, e)}/></td>
                                         <td><input type="date" name="dateExpiration" value={sproduct.dateExpiration} onChange={(e) => handleChangeInArray(i, e)}/></td>
                                    </tr>
                                )
