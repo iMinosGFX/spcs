@@ -1,5 +1,5 @@
 import axios from "axios"
-import { ExtractStorageContent, StoragePayload } from "../@types/storages"
+import { ExtractStorageContent, StoragePayload, ExtractStorageWithStocksContent, CombinedStocks, ExtractStoragesWihStocks } from "../@types/storages"
 import { API_STORAGES } from "../config/api"
 
 function create(storage: StoragePayload){
@@ -11,12 +11,14 @@ function findAllStoragesLinkToUser(userId: string): Promise<ExtractStorageConten
 }
 
 
-function readStorageWithStocks(id: number): Promise<ExtractStorageContent[]>{
-    return axios.get(`${API_STORAGES}/${id}`).then(response => response.data)
+function readStorageWithStocks(id: number): Promise<ExtractStorageWithStocksContent>{
+    return axios.get(`${API_STORAGES}/${id}`)
+    .then(response => response.data)
 }
 
 export default {
     create,
-    findAllStoragesLinkToUser
+    findAllStoragesLinkToUser,
+    readStorageWithStocks
 
 }
