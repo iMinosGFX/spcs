@@ -1,21 +1,22 @@
-import React, {useState, useEffect} from 'react'
+ //@ts-nocheck 
+
+import React, {useState, useEffect, useRef} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearBreadCrumb, setContentTitle, setSecondaryNav } from '../../../store/navigation/action'
-import ProductsAPI from '../../../api/ProductsAPI';
-import { ExtractStockContent, ExtractStock } from '../../../@types/stocks'; 
-import { ExtractStorageContent } from '../../../@types/storages'; 
+import { ExtractCombinedStocks } from '../../../@types/stocks'; 
 import StoragesAPI from '../../../api/StoragesAPI';
 import StocksAPI from '../../../api/StocksAPI';
 import UsersAPI from '../../../api/UsersAPI';
-import { ExtractProductContent } from '../../../@types/products';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMinus, faPlus, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import _ from "lodash"
 import useModal from "@optalp/use-modal"
 import Select from 'react-select';
 import { UserState } from '../../../store/user/reducer';
 import { useToasts } from 'react-toast-notifications';
-import { ExtractUsersContent, Roles } from '../../../@types/users';
+import ServerSideTable from '../../../components/Tables/ServerSideTable';
+import { FilterItem } from '../../../components/Tables/FiltersInteract';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 
 
 type createStorage = {
@@ -42,64 +43,86 @@ const transports = {
     }
 }
 
+const filterColumns: FilterItem[] = [
+    {name:"productName", label:"Nom", type:"text"},
+    {name:"storageCity", label:"Ville", type:"text"},
+    {name:"dateExpiration", label:"Date Expiration", type:"date"},
+]
+
+const sorterSelect = [
+]
+
 const ProductSupermarket = () => {
 
     const dispatch = useDispatch()
     const { addToast } = useToasts();
     const {connectedUser} = useSelector<UserState, UserState>((state: UserState) => state)
     
-    const [searchProduct, setsearchProduct] = useState<string>(undefined)
     const [loading, setLoading] = useState<boolean>(true)
 
-    const [producers, setProducers] = useState<ExtractUsersContent[]>([])
-    const [products, setProducts] = useState<ExtractProductContent[]>([])
     const [storagesList, setStoragesList] =  useState<{label:string, value: number}[]>([])
-    
-    const [selectedProducer, setSelectProducer] = useState<any>()
+    const [producersList, setProducersList] = useState<{label:string, value: number}[]>([])
+    const [data, setData] = useState<ExtractCombinedStocks>(null)
+
+    const [selectedProducer, setSelectProducer] = useState<{value:number, label:string}>()
     const [selectedStorage, setSelectedStorage] = useState<{value:number, label:string}>(null)
     const [selectedTransport, setSelectedTransport] = useState<{value:number, label:string}>(null)
     const [selectedProducts, setSelectedProducts] = useState<createStorage[]>([])
     
+    const ServerSideTableRef = useRef();
+    const [pageCount, setPageCount] = useState<number>(0)
+
     const { Modal, isShowing: isModalShowed, open, close } = useModal();
 
+    const [params, setParams] = useState<any>()
 
+
+    const columns = [
+        {        
+          Header: 'Nom',
+          accessor: 'productName',
+        },
+        {        
+          Header: 'Code',
+          accessor: 'id.productCode',
+        },
+        {
+          Header: 'Date d\'expiration',
+          accessor: 'id.dateExpiration',
+        },
+        {
+          Header: 'Lieu d\'entreposage',
+          accessor: 'storageCity',
+        },
+        {
+            Header: 'Quantité',
+            accessor: 'totalQuantity',
+        },
+        {
+          Header: 'Prix',
+          accessor: 'price',
+        },
+        {
+            Header: "Ajouter",
+            Cell: ({row}) => (
+                <div style={{display: 'flex', alignItems:'center'}}>
+                    <span className="table-icon" data-name="Ajouter"><FontAwesomeIcon icon={faPlusCircle} color="#01a3a4"/></span>
+                </div>
+            )
+        }
+    ]
 
     useEffect(() => {
         dispatch(clearBreadCrumb())
         dispatch(setContentTitle('Produits'))
         dispatch(setSecondaryNav("none"))
         StoragesAPI.findAllStoragesLinkToUser(connectedUser.id).then(data => setStoragesList(data.map(storage => ({value: storage.id, label: storage.name}))))
-
+        UsersAPI.findUsers({role: "PRODUCER"}).then(users => setProducersList(users.content.map(user => ({value: user.id, label: user.firstName}))))
     }, [])
 
+    
 
-    const handleChange = (e: any) => {
-        setLoading(true)
-        const value = e.target.value;
-        setsearchProduct(value);
-        UsersAPI.findUsers({firstName: value, role: "PRODUCER",size:10})
-        .then(data => {
-            setProducers(data.content)
-            setLoading(false)
-        })
-        .catch(e => console.log("Error : ", e))
-        //TODO: Call API with value
-    }
 
-    const handleAddProduct = (product: ExtractProductContent) => {
-        setSelectedProducts([...selectedProducts, {
-            price: null,
-            threshold:null,
-            dateExpiration: null,
-            productCode:product.code,
-            quantity:null,
-            productName: product.productName
-        }]);
-    }
-
-    const handleRemoveProduct = (product: ExtractProductContent) => {
-        setSelectedProducts(selectedProducts.filter(p => p.productCode != product.code))
-    }
 
     const handleChangeInArray = (i: number, e: any) => {
         const {value, name} = e.target;
@@ -109,16 +132,41 @@ const ProductSupermarket = () => {
         setSelectedProducts(_array)
     }
 
+    const getData = (e, producerId) => {
+
+        if(e != null) {
+            params = e
+            setParams(e)
+        }
+        StocksAPI.findProducerStocks(producerId, {
+            ...params.filters,
+            size: params.perPage,
+            page: params.offset
+        })
+        .then(data => {
+            setData(data.content)
+            //setPageCount(data.totalPages)
+        })
+    }
+
     return(
         <>
             <div style={{display: "flex", justifyContent: "space-between", padding: "0 20px", alignItems: "center"}}>
                 <div>
                     <h4 style={{paddingTop: 20}} >Rechercher un producteur</h4>
                     <div style={{width: 300}}>
-                        <input 
-                            type="text"
-                            value={searchProduct}
-                            onChange={handleChange}
+                        <Select 
+                            options={producersList}
+                            classNamePrefix="reactSelectInput"
+                            isSearchable
+                            maxMenuHeight={200}
+                            value={selectedProducer}
+                            onChange={e => {
+                                console.log(`value : ${e.value}`)
+                                setSelectProducer(e)
+                                if(!loading) getData(null, e.value)
+                                setLoading(false) 
+                            }}
                         />
                     </div>
                 </div>
@@ -129,44 +177,24 @@ const ProductSupermarket = () => {
                     </button>
                 </div>
             </div>
-            {!loading && 
+
+            {!!selectedProducer &&
                 <div className="row">
-                    <table className="table striped">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Nom</th>
-                                <th>Marque</th>
-                                <th>Code</th>
-                                <th>Grade</th>
-                                <th>Quantité</th>
-                                <th>Origine</th>
-                                <th>Ajouter</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {!!products && products.map(product => {
-                                return(
-                                    <tr key={product.code}>
-                                        <td><img src={product.imageUrl} width="70"/></td>
-                                        <td>{product?.productName}</td>
-                                        <td>{product?.brands}</td>
-                                        <td>{product?.code}</td>
-                                        <td>{product?.grade}</td>
-                                        <td>{product?.quantity}</td>
-                                        <td>{product?.origins}</td>
-                                        {_.find(selectedProducts, ['productCode', product.code]) ? 
-                                            <td><button className="btn bg-red" onClick={() => handleRemoveProduct(product)}><FontAwesomeIcon icon={faMinus}/></button></td>
-                                        :
-                                            <td><button className="btn bg-green" onClick={() => handleAddProduct(product)}><FontAwesomeIcon icon={faPlus}/></button></td>
-                                        }
-                                    </tr>
-                                )
-                            })}
-                        </tbody>
-                    </table>
+                    <ServerSideTable 
+                        ref={ServerSideTableRef}
+                        columns={columns}
+                        data={data}
+                        isFilter
+                        filtersList={filterColumns}
+                        isSorter
+                        sorterSelect={sorterSelect}
+                        filterParsedType="fuzzy"
+                        onDataChange={(e) => getData(e, selectedProducer.value)}
+                    />		
                 </div>
             }
+           
+            
             <Modal
                 isShowing={isModalShowed}
                 hide={close}
@@ -232,7 +260,7 @@ const ProductSupermarket = () => {
                        </div>
                        <div style={{width: "40%"}}>
                         <Select 
-                                options={Object.entries(transports).map(([key, value]) =>  ({value: value.carbonFootprint, label: value.name}))}
+                                options={Object.entries(transports).map(([, value]) =>  ({value: value.carbonFootprint, label: value.name}))}
                                 classNamePrefix="reactSelectInput"
                                 isSearchable
                                 value={selectedTransport}

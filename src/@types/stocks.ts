@@ -15,3 +15,28 @@ export type ExtractStockContent = {
 export interface ExtractStock extends PaginationObject {
     content: ExtractStockContent[]
 }
+
+export interface ExtractCombinedStocks extends PaginationObject{
+    content: ExtractCombinedStocksContent[]
+}
+
+export interface ExtractCombinedStocksContent {
+    id: {
+        productCode: string,
+        dateExpiration: Date
+    },
+    productName: string,
+    price: number,
+    storageId: number,
+    storageName: string,
+    storageCity?: string,
+    totalQuantity: number
+}
+
+export type SearchCombinedStocks = {
+    size?:number
+    page?:number
+    sort?:string
+    productName: string,
+    storageCity?: string
+}
