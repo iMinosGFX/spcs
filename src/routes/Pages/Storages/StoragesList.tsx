@@ -21,7 +21,11 @@ const StoragesList = () => {
 
     const columns = [
         {        
-          Header: 'Code Produits',
+          Header: 'Nom',
+          accessor: 'productName',
+        },
+        {        
+          Header: 'Code',
           accessor: 'id.productCode',
         },
         {
@@ -47,6 +51,8 @@ const StoragesList = () => {
     const [selectedStorage, setSelectedStorage] = useState<{value:number, label:string}>(null)
     const {connectedUser} = useSelector<UserState, UserState>((state: UserState) => state)
     const [stocks, setStocks] = useState<ExtractStoragesWihStocks>(null)
+    const [pageCount, setPageCount] = useState<number>(0)
+
 
     useEffect(() => {
         dispatch(clearBreadCrumb())
@@ -58,11 +64,12 @@ const StoragesList = () => {
 
     }, [])
 
-    const getData = () => {
-    	StoragesAPI.readStorageWithStocks(3)
+    const getData = (storageId) => {
+    	StoragesAPI.readStorageWithStocks(storageId)
     	.then(data => {
             console.log("Data:")
     		setStocks(data.combinedStocks.content)
+            setPageCount(data.combinedStocks.totalPages)
             console.log(stocks)
     	})
     }
@@ -73,13 +80,15 @@ const StoragesList = () => {
                 <div style={{width: "40%", margin: '0 auto'}}>
                 <h4 style={{paddingTop: 20}} className="text-center">Sélectionner l'entrepôt à visualiser</h4>
                     <Select 
-                        options={storagesList}
+                        options={storagesList.sort((a, b) => a.value - b.value)}
                         classNamePrefix="reactSelectInput"
                         isSearchable
                         value={selectedStorage}
                         onChange={e => {
                             setSelectedStorage(e)
-                            setLoading(false)}
+                            setLoading(false)
+                            getData(e.value)
+                        }
                         }/>
                 </div>
             </div>
@@ -89,14 +98,13 @@ const StoragesList = () => {
                     ref={ServerSideTableRef}
                     columns={columns}
                     data={stocks}
+                    pageCount={pageCount}
                     isFilter
                     filtersList={filterColumns}
                     isSorter
                     sorterSelect={sorterSelect} 
-                    showAddBtn
                     filterParsedType="fuzzy"
-                    onAddClick={open}
-                    onDataChange={() => getData()}/>		
+                    onDataChange={() => getData(selectedStorage.value)}/>		
                 </div>
             }
         </>
