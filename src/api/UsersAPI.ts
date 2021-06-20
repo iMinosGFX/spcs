@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { RegisterPayload } from '../@types/users';
+import { RegisterPayload, ExtractUsers, SearchUser } from '../@types/users';
 import { API_USERS } from '../config/api';
 
 
@@ -8,6 +8,13 @@ function register(payload: RegisterPayload){
     .then(response => response.data);
 }
 
+
+function findUsers(payload: SearchUser): Promise<ExtractUsers>{
+    return axios.get(`${API_USERS}/all`, {params:payload})
+    .then(response => response.data);
+}
+
 export default {
-    register
+    register,
+    findUsers
 }

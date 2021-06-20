@@ -6,6 +6,7 @@ import { ExtractStockContent, ExtractStock } from '../../../@types/stocks';
 import { ExtractStorageContent } from '../../../@types/storages'; 
 import StoragesAPI from '../../../api/StoragesAPI';
 import StocksAPI from '../../../api/StocksAPI';
+import UsersAPI from '../../../api/UsersAPI';
 import { ExtractProductContent } from '../../../@types/products';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faPlus, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
@@ -14,7 +15,7 @@ import useModal from "@optalp/use-modal"
 import Select from 'react-select';
 import { UserState } from '../../../store/user/reducer';
 import { useToasts } from 'react-toast-notifications';
-
+import { ExtractUsersContent, Roles } from '../../../@types/users';
 
 
 type createStorage = {
@@ -26,19 +27,40 @@ type createStorage = {
     productName: string
 }
 
-const ProductProducer = () => {
+const transports = {
+    "train":{
+        "name": "Train",
+        "carbonFootprint": 2
+    },
+    "car":{
+        "name": "Voiture",
+        "carbonFootprint": 120
+    },
+    "plane":{
+        "name": "Avion",
+        "carbonFootprint": 258
+    }
+}
+
+const ProductSupermarket = () => {
 
     const dispatch = useDispatch()
     const { addToast } = useToasts();
-
+    const {connectedUser} = useSelector<UserState, UserState>((state: UserState) => state)
+    
     const [searchProduct, setsearchProduct] = useState<string>(undefined)
     const [loading, setLoading] = useState<boolean>(true)
+
+    const [producers, setProducers] = useState<ExtractUsersContent[]>([])
     const [products, setProducts] = useState<ExtractProductContent[]>([])
     const [storagesList, setStoragesList] =  useState<{label:string, value: number}[]>([])
+    
+    const [selectedProducer, setSelectProducer] = useState<any>()
     const [selectedStorage, setSelectedStorage] = useState<{value:number, label:string}>(null)
+    const [selectedTransport, setSelectedTransport] = useState<{value:number, label:string}>(null)
     const [selectedProducts, setSelectedProducts] = useState<createStorage[]>([])
+    
     const { Modal, isShowing: isModalShowed, open, close } = useModal();
-    const {connectedUser} = useSelector<UserState, UserState>((state: UserState) => state)
 
 
 
@@ -55,12 +77,13 @@ const ProductProducer = () => {
         setLoading(true)
         const value = e.target.value;
         setsearchProduct(value);
-        ProductsAPI.findAllProducts({productName: value, size: 10})
+        UsersAPI.findUsers({firstName: value, role: "PRODUCER",size:10})
         .then(data => {
-            setProducts(data.content)
+            setProducers(data.content)
             setLoading(false)
         })
         .catch(e => console.log("Error : ", e))
+        //TODO: Call API with value
     }
 
     const handleAddProduct = (product: ExtractProductContent) => {
@@ -90,7 +113,7 @@ const ProductProducer = () => {
         <>
             <div style={{display: "flex", justifyContent: "space-between", padding: "0 20px", alignItems: "center"}}>
                 <div>
-                    <h4 style={{paddingTop: 20}} >Rechercher un produit</h4>
+                    <h4 style={{paddingTop: 20}} >Rechercher un producteur</h4>
                     <div style={{width: 300}}>
                         <input 
                             type="text"
@@ -198,8 +221,8 @@ const ProductProducer = () => {
                            })}
                        </tbody>
                    </table>
-                   <div style={{display: "flex", justifyContent: "space-between", margin: '0 0', paddingTop: "1%", paddingBottom: "1%"}}>
-                       <div style={{width: "20%"}}>
+                   <div style={{display: "flex", justifyContent: "space-between", width: "%", margin: '0 0', paddingTop: "1%", paddingBottom: "1%"}}>
+                       <div style={{width: "40%"}}>
                             <Select 
                                 options={storagesList}
                                 classNamePrefix="reactSelectInput"
@@ -207,10 +230,21 @@ const ProductProducer = () => {
                                 value={selectedStorage}
                                 onChange={e => setSelectedStorage(e)}/>
                        </div>
+                       <div style={{width: "40%"}}>
+                        <Select 
+                                options={Object.entries(transports).map(([key, value]) =>  ({value: value.carbonFootprint, label: value.name}))}
+                                classNamePrefix="reactSelectInput"
+                                isSearchable
+                                value={selectedTransport}
+                                onChange={e => {
+                                    setSelectedTransport(e)
+                                    console.log(e.value)    
+                                }}/>
+                        </div>
                     </div>
             </Modal>
         </>
     )
 }
 
-export default ProductProducer
+export default ProductSupermarket

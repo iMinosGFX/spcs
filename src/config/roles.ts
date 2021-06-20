@@ -121,7 +121,7 @@ const rolesConfig = {
             components.home,
             components.inventory,
             components.settings,
-components.settingProfile,
+            components.settingProfile,
         ]
     }
 }
