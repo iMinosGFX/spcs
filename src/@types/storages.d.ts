@@ -40,7 +40,7 @@ export type ExtractStorageWithStocksContent = {
 export type ExtractStorageContent = {
     id: number
     userId: number,
-    storageType: StorageType,
+    storageType: string,
     name: string,
     street?: string,
     postalCode: string,

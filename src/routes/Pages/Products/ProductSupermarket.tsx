@@ -15,8 +15,6 @@ import { useToasts } from 'react-toast-notifications';
 import ServerSideTable from '@optalp/react-server-side-table';
 import OrdersAPI from "../../../api/OrdersAPI"
 import { uniqBy } from 'lodash';
-import { OrderItem } from '../../../@types/order';
-import FieldWithoutRegister from '../../../components/Inputs/FieldWithoutRegister';
 
 type createStorage = {
     dateExpiration: string,
@@ -106,11 +104,10 @@ const ProductSupermarket = () => {
             Cell: ({row}) => (
                 <div style={{display: 'flex', alignItems:'center'}}>
                      {_.find(selectedProducts, ['productCode', row.original.id.productCode]) ? 
-                        <td><button className="btn bg-red" onClick={() => handleRemoveProduct(row.original)}><FontAwesomeIcon icon={faMinus}/></button></td>
+                        <button className="btn bg-red" onClick={() => handleRemoveProduct(row.original)}><FontAwesomeIcon icon={faMinus}/></button>
                     :
-                        <td><button className="btn bg-green" onClick={() => handleAddProduct(row.original)}><FontAwesomeIcon icon={faPlus}/></button></td>
+                        <button className="btn bg-green" onClick={() => handleAddProduct(row.original)}><FontAwesomeIcon icon={faPlus}/></button>
                     }
-                    {/* <span className="table-icon" data-name="Ajouter" onClick={() => handleAddProduct(row.original)}><FontAwesomeIcon icon={faPlusCircle} color="#01a3a4"/></span> */}
                 </div>
             )
         }
@@ -140,7 +137,7 @@ const ProductSupermarket = () => {
     useEffect(() => {
         setTimeout(() => {
             //@ts-ignore
-            ServerSideTableRef.current.reloadData()
+            ServerSideTableRef?.current?.reloadData()
         }, 200)
     }, [selectedProducer])
 
