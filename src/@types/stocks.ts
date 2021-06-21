@@ -40,3 +40,13 @@ export type SearchCombinedStocks = {
     productName: string,
     storageCity?: string
 }
+
+export type ManageStock = {
+    fromStorage: number
+    toStorage: number
+    products: {
+        productCode:string
+        dateExpiration:string
+        quantity: number
+    }[]
+}

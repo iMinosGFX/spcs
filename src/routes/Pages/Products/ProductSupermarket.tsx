@@ -195,7 +195,7 @@ const ProductSupermarket = () => {
                     <ServerSideTable 
                         columns={columns}
                         data={data}
-                        perPageItems={10}
+                        perPageItems={50}
                         isFilter
                         filtersList={filterColumns}
                         filterParsedType="fuzzy"

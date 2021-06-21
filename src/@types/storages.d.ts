@@ -15,7 +15,7 @@ export interface ExtractStoragesWihStocks extends PaginationObject {
 export interface CombinedStocks {
     id: {
         productCode: string,
-        dateExpiration: Date
+        dateExpiration: string
     },
     price: number,
     totalQuantity: number

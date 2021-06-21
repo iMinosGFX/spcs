@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ExtractCombinedStocks, ExtractStockContent, SearchCombinedStocks } from '../@types/stocks';
+import { ExtractCombinedStocks, ExtractStockContent, ManageStock, SearchCombinedStocks } from '../@types/stocks';
 import { API_STOCKS } from '../config/api'; 
 
 
@@ -21,8 +21,13 @@ function findSupport(payload: any): Promise<any>{
     .then(response => response.data)
 }
 
+function MoveToInventory(payload: ManageStock): Promise<any>{
+    return axios.patch(`${API_STOCKS}/manage`, payload)
+}
+
 export default {
     create,
     findSupport,
-    findProducerStocks
+    findProducerStocks,
+    MoveToInventory
 }
