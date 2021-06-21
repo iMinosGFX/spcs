@@ -3,10 +3,10 @@ import { ExtractStorageContent, StoragePayload, ExtractStorageWithStocksContent,
 import { API_STORAGES } from "../config/api"
 
 function create(storage: StoragePayload){
-    return axios.post(`${API_STORAGES}`)
+    return axios.post(`${API_STORAGES}`, storage)
 }
 
-function findAllStoragesLinkToUser(userId: string): Promise<ExtractStorageContent[]>{
+function findAllStoragesLinkToUser(userId: number): Promise<ExtractStorageContent[]>{
     return axios.get(`${API_STORAGES}/users/${userId}`).then(response => response.data)
 }
 

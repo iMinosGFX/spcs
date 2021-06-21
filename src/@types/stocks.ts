@@ -23,7 +23,7 @@ export interface ExtractCombinedStocks extends PaginationObject{
 export interface ExtractCombinedStocksContent {
     id: {
         productCode: string,
-        dateExpiration: Date
+        dateExpiration: string
     },
     productName: string,
     price: number,

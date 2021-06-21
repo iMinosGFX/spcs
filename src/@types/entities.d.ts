@@ -3,7 +3,7 @@ export type User = {
     role?: string,
     userName?:string,
     authorities?: string[],
-    id?:string
+    id?:number
 }
 
 export type ConnectedCredentials = {

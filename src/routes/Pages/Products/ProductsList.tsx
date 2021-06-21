@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef} from 'react'
 import useSidebar from "@optalp/use-sidebar"
 import { ExtractProducts } from '../../../@types/products';
 import ProductsAPI from "../../../api/ProductsAPI"
-import { FilterItem } from '../../../components/Tables/FiltersInteract';
+// import { FilterItem } from '../../../components/Tables/FiltersInteract';
 import ServerSideTable from '@optalp/react-server-side-table';
 
 const columns = [
@@ -28,7 +28,7 @@ const columns = [
     }
 ]
 
-const filters: FilterItem[] = [
+const filters: any[] = [
 ]
 
 const sorters: {value:string, label:string}[] = [

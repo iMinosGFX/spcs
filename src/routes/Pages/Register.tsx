@@ -8,6 +8,8 @@ import { Controller, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import Field from '../../components/Inputs/Field';
 import InputMask from 'react-input-mask';
+import StoragesAPI from '../../api/StoragesAPI';
+import { StorageType } from '../../@types/storages';
 
 type FormData = {
     firstName: string
@@ -20,6 +22,11 @@ type FormData = {
     siret: string
     bic: string
     role: "SUPERMARKET" | "PRODUCER"
+    storage_name:string
+    postalCode:string
+    street:string
+    country: string
+    city: string
 }
 
 const Login = () => {
@@ -34,12 +41,33 @@ const Login = () => {
             setError("Les mots de passe sont différents")
             return;
         }
-        delete data.passwordRepeat;
-        UsersAPI.register(data)
-        .then(() => {
-            history.push("/")
+        UsersAPI.register({
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email,
+            password: data.password,
+            phone:data.phone.replace(/\s+/g, ''),
+            bic:data.bic,
+            iban:data.iban,
+            siret:data.siret,
+            role: data.role
         })
-        .catch(error => console.log("Error :", error))
+        .then(user => {
+            StoragesAPI.create({
+                userId: user.id,
+                storageType: data.role === "SUPERMARKET" ? "SUPERMARKET_INVENTORY" : "WAREHOUSE",
+                name: data.storage_name,
+                street: data.street,
+                city: data.city,
+                postalCode: data.postalCode,
+                country:data.country,
+                latitude: null,
+                longitude: null,
+            })
+            .then(() => history.push("/"))
+            .catch(error => console.log("Error Storage :", error))
+        })
+        .catch(error => console.log("Error User:", error))
     }
 
     return (
@@ -53,7 +81,7 @@ const Login = () => {
                         <h3 className="light">SUPINFO 2021</h3>
                     </div>
                 </div>
-                <div className="navigation-right">
+                <div className="navigation-right" style={{overflowY:"auto"}}>
                     <div style={{paddingTop: 40, width: "85%", margin:"0 auto"}}>
                         <span style={{position: 'absolute', top: 40, left: 20, cursor: "pointer"}} onClick={() => history.push("/")}><FontAwesomeIcon icon={faArrowLeft} size="2x"/></span>
                         <h2 className="text-center">Vous inscrire</h2>
@@ -178,6 +206,52 @@ const Login = () => {
                                         <input type="radio" id={`user_role_prducer`} name="role" value="PRODUCER" ref={register({required: true})}/>
                                         <span>un producteur</span>
                                     </label>
+                                </div>
+                            </div>
+                            <h3 className="text-center" style={{paddingTop: 20}}>Entrepôt</h3>
+                            <div className="row">
+                                <div className="md-6">
+                                    <Field 
+                                        name="storage_name"
+                                        label="Nom de l'entrepôt *"
+                                        register={register({required:true})}
+                                        error={errors.storage_name}/>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="md-8">
+                                    <Field 
+                                        name="street"
+                                        label="Rue *"
+                                        register={register({required:true})}
+                                        error={errors.street}/>
+                                </div>
+                                <div className="md-4">
+                                    <Field 
+                                        name="postalCode"
+                                        label="Code postal *"
+                                        register={register({
+                                            pattern:{
+                                                value: /^(?:[0-8]\d|9[0-8])\d{3}$/,
+                                                message: '' 
+                                            },
+                                            required: true 
+                                        })}
+                                        error={errors.postalCode}/>
+                                </div>
+                                <div className="md-6">
+                                    <Field 
+                                        name="city"
+                                        label="Ville *"
+                                        register={register({required:true})}
+                                        error={errors.city}/>
+                                </div>
+                                <div className="md-6">
+                                    <Field 
+                                        name="country"
+                                        label="Pays *"
+                                        register={register({required:true})}
+                                        error={errors.country}/>
                                 </div>
                             </div>
                             <input type="submit" value="Valider mon inscription" className="btn bg-blue center"/>

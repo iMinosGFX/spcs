@@ -1,6 +1,6 @@
 import { PaginationObject } from './entities';
 
-export enum StorageType{
+export const enum StorageType{
     WAREHOUSE,
     SUPERMARKET_INVENTORY,
     SUPERMARKET_SHELVES,
@@ -58,7 +58,7 @@ export interface ExtractStorages extends PaginationObject {
 
 export type StoragePayload = {
     userId: number,
-    storageType: StorageType,
+    storageType: string,
     name: string,
     street?: string,
     postalCode: string,

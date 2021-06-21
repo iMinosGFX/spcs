@@ -1,23 +1,22 @@
- //@ts-nocheck 
-
 import React, {useState, useEffect, useRef} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearBreadCrumb, setContentTitle, setSecondaryNav } from '../../../store/navigation/action'
-import { ExtractCombinedStocks } from '../../../@types/stocks'; 
+import { ExtractCombinedStocks, ExtractCombinedStocksContent } from '../../../@types/stocks'; 
 import StoragesAPI from '../../../api/StoragesAPI';
 import StocksAPI from '../../../api/StocksAPI';
 import UsersAPI from '../../../api/UsersAPI';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { faMinus, faPlus, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import _ from "lodash"
 import useModal from "@optalp/use-modal"
 import Select from 'react-select';
 import { UserState } from '../../../store/user/reducer';
 import { useToasts } from 'react-toast-notifications';
-import ServerSideTable from '../../../components/Tables/ServerSideTable';
-import { FilterItem } from '../../../components/Tables/FiltersInteract';
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-
+import ServerSideTable from '@optalp/react-server-side-table';
+import OrdersAPI from "../../../api/OrdersAPI"
+import { uniqBy } from 'lodash';
+import { OrderItem } from '../../../@types/order';
+import FieldWithoutRegister from '../../../components/Inputs/FieldWithoutRegister';
 
 type createStorage = {
     price:number
@@ -43,6 +42,7 @@ const transports = {
     }
 }
 
+//@ts-ignore
 const filterColumns: FilterItem[] = [
     {name:"productName", label:"Nom", type:"text"},
     {name:"storageCity", label:"Ville", type:"text"},
@@ -52,30 +52,31 @@ const filterColumns: FilterItem[] = [
 const sorterSelect = [
 ]
 
+type SelectedProduct = {
+    storageId: number
+    productCode:string
+    quantity:string,
+    productName:string,
+    dateExpiration: string
+    price:number
+    maxQuantity: number
+}
+
 const ProductSupermarket = () => {
 
     const dispatch = useDispatch()
     const { addToast } = useToasts();
     const {connectedUser} = useSelector<UserState, UserState>((state: UserState) => state)
-    
-    const [loading, setLoading] = useState<boolean>(true)
-
     const [storagesList, setStoragesList] =  useState<{label:string, value: number}[]>([])
     const [producersList, setProducersList] = useState<{label:string, value: number}[]>([])
-    const [data, setData] = useState<ExtractCombinedStocks>(null)
-
+    const [data, setData] = useState<ExtractCombinedStocks>()
     const [selectedProducer, setSelectProducer] = useState<{value:number, label:string}>()
     const [selectedStorage, setSelectedStorage] = useState<{value:number, label:string}>(null)
     const [selectedTransport, setSelectedTransport] = useState<{value:number, label:string}>(null)
-    const [selectedProducts, setSelectedProducts] = useState<createStorage[]>([])
-    
+    const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>([])
     const ServerSideTableRef = useRef();
-    const [pageCount, setPageCount] = useState<number>(0)
-
     const { Modal, isShowing: isModalShowed, open, close } = useModal();
-
-    const [params, setParams] = useState<any>()
-
+    const [distance, setDistance] = useState<string>("0")
 
     const columns = [
         {        
@@ -106,7 +107,12 @@ const ProductSupermarket = () => {
             Header: "Ajouter",
             Cell: ({row}) => (
                 <div style={{display: 'flex', alignItems:'center'}}>
-                    <span className="table-icon" data-name="Ajouter"><FontAwesomeIcon icon={faPlusCircle} color="#01a3a4"/></span>
+                     {_.find(selectedProducts, ['productCode', row.original.id.productCode]) ? 
+                        <td><button className="btn bg-red" onClick={() => handleRemoveProduct(row.original)}><FontAwesomeIcon icon={faMinus}/></button></td>
+                    :
+                        <td><button className="btn bg-green" onClick={() => handleAddProduct(row.original)}><FontAwesomeIcon icon={faPlus}/></button></td>
+                    }
+                    {/* <span className="table-icon" data-name="Ajouter" onClick={() => handleAddProduct(row.original)}><FontAwesomeIcon icon={faPlusCircle} color="#01a3a4"/></span> */}
                 </div>
             )
         }
@@ -120,33 +126,47 @@ const ProductSupermarket = () => {
         UsersAPI.findUsers({role: "PRODUCER"}).then(users => setProducersList(users.content.map(user => ({value: user.id, label: user.firstName}))))
     }, [])
 
-    
+    const getData = e => {
+        const {offset, perPage, filters, sorter} = e
+        StocksAPI.findProducerStocks(selectedProducer.value, {
+            ...filters,
+            sort: sorter ?? "",
+            size: perPage,
+            page: offset,
+        })
+        .then(data => 
+            setData(data)
+        )
+    }
 
+    useEffect(() => {
+        setTimeout(() => {
+            //@ts-ignore
+            ServerSideTableRef.current.reloadData()
+        }, 200)
+    }, [selectedProducer])
 
+    const handleAddProduct = (product: ExtractCombinedStocksContent) => {
+        setSelectedProducts([...selectedProducts, {
+            dateExpiration: product.id.dateExpiration,
+            quantity: "1",
+            productCode: product.id.productCode,
+            storageId: product.storageId,
+            price: product.price,
+            productName: product.productName,
+            maxQuantity: product.totalQuantity
+        }])
+    }
+
+    const handleRemoveProduct = (product: ExtractCombinedStocksContent) => {
+        setSelectedProducts(selectedProducts.filter(p => p.productCode != product.id.productCode))
+    }
 
     const handleChangeInArray = (i: number, e: any) => {
         const {value, name} = e.target;
-        console.log(value, name)
         let _array = selectedProducts;
         _array[i][name] = value
-        setSelectedProducts(_array)
-    }
-
-    const getData = (e, producerId) => {
-
-        if(e != null) {
-            params = e
-            setParams(e)
-        }
-        StocksAPI.findProducerStocks(producerId, {
-            ...params.filters,
-            size: params.perPage,
-            page: params.offset
-        })
-        .then(data => {
-            setData(data.content)
-            //setPageCount(data.totalPages)
-        })
+        setSelectedProducts([..._array])
     }
 
     return(
@@ -162,10 +182,7 @@ const ProductSupermarket = () => {
                             maxMenuHeight={200}
                             value={selectedProducer}
                             onChange={e => {
-                                console.log(`value : ${e.value}`)
                                 setSelectProducer(e)
-                                if(!loading) getData(null, e.value)
-                                setLoading(false) 
                             }}
                         />
                     </div>
@@ -178,50 +195,58 @@ const ProductSupermarket = () => {
                 </div>
             </div>
 
-            {!!selectedProducer &&
-                <div className="row">
+            <div className="row">
+                {!!selectedProducer && 
                     <ServerSideTable 
-                        ref={ServerSideTableRef}
                         columns={columns}
                         data={data}
+                        perPageItems={10}
                         isFilter
                         filtersList={filterColumns}
+                        filterParsedType="fuzzy"
                         isSorter
                         sorterSelect={sorterSelect}
-                        filterParsedType="fuzzy"
-                        onDataChange={(e) => getData(e, selectedProducer.value)}
-                    />		
-                </div>
-            }
+                        ref={ServerSideTableRef}
+                        onDataChange={(e) => getData(e)}/>
+                }
+            </div>
            
-            
             <Modal
                 isShowing={isModalShowed}
                 hide={close}
                 widthPercentage={80}
                 title="Liste des produits à ajouter"
                 primaryBtn
-
-
                 onBtnClick={() => {
-                    StocksAPI.create(selectedStorage.value, selectedProducts.map(x => {
-                        return ({
-                            price: x.price,
-                            threshold: x.threshold,
-                            dateExpiration: x.dateExpiration,
-                            productCode:x.productCode,
-                            quantity:x.quantity,
-                        })
-                    }))
+                    let _array: any = {}
+                    let _storagesIds = uniqBy(selectedProducts, 'storageId').map(x => x.storageId)
+                    _storagesIds.map(id => {
+                        let _arr = []
+                        _arr.push(...selectedProducts.filter(p => p.storageId == id.toString()).map(pr => ({
+                            quantity: parseInt(pr.quantity),
+                            productCode: pr.productCode,
+                            minDateExpiration: pr.dateExpiration
+                        })))
+
+                        _array[id] = _arr
+                    })
+
+                   OrdersAPI.createOrder({
+                       supermarketId: connectedUser.id,
+                       supermarketStorageId: selectedStorage.value,
+                       producerId: selectedProducer.value,
+                       carbonFootprint: parseInt(distance) * selectedTransport.value,
+                       storages: _array
+                   })
                     .then(() => {
                         addToast("Les produits ont bien été ajouté à votre stock.", {appearance: "success"})
                         setSelectedProducts([])
+                        close()
+                        //@ts-ignore
+                        ServerSideTableRef.current.reloadData()
                     })
                     .catch(() => addToast("Une erreur est survenue pendant la création de votre stock de produits.", {appearance: "warning"}))
-                    
                 }}
-
-
                 buttonText="Valider"
                 primaryColor="#27ae60"
                 secondaryColor="#ee5253">
@@ -229,28 +254,28 @@ const ProductSupermarket = () => {
                        <thead>
                            <tr>
                                <th>Nom du produit</th>
-                               <th>Quantité à ajouter</th>
                                <th>Prix</th>
-                               <th>Seuil</th>
+                               <th>Quantité à ajouter</th>
                                <th>Date d'expiration</th>
                            </tr>
                        </thead>
                        <tbody>
-                           {selectedProducts.map((sproduct,i) => {
+                           {selectedProducts.length > 0 ?
+                           selectedProducts.map((sproduct,i) => {
                                return(
                                    <tr key={sproduct.productCode}>
                                         <td>{sproduct.productName}</td>
-                                        <td><input type="number" step={1} name="quantity" value={sproduct.quantity} onChange={(e) => handleChangeInArray(i, e)}/></td>
-                                        <td><input type="number" name="price" value={sproduct.price} onChange={(e) => handleChangeInArray(i, e)}/></td>
-                                        <td><input type="number" name="threshold" value={sproduct.threshold} onChange={(e) => handleChangeInArray(i, e)}/></td>
+                                        <td>{sproduct.price}</td>
+                                        <td><input type="number" step={1} name="quantity" min={0} max={sproduct.maxQuantity} value={sproduct.quantity} onChange={(e) => handleChangeInArray(i, e)}/></td>
                                         <td><input type="date" name="dateExpiration" value={sproduct.dateExpiration} onChange={(e) => handleChangeInArray(i, e)}/></td>
                                    </tr>
                                )
-                           })}
+                           }) : <p>Aucuns produits séléctionés</p>}
                        </tbody>
                    </table>
-                   <div style={{display: "flex", justifyContent: "space-between", width: "%", margin: '0 0', paddingTop: "1%", paddingBottom: "1%"}}>
-                       <div style={{width: "40%"}}>
+                   <div style={{width: '50%', margin: "0 auto", paddingTop: 20}}>
+                       <div>
+                           <label>Entrepôt</label>
                             <Select 
                                 options={storagesList}
                                 classNamePrefix="reactSelectInput"
@@ -258,16 +283,27 @@ const ProductSupermarket = () => {
                                 value={selectedStorage}
                                 onChange={e => setSelectedStorage(e)}/>
                        </div>
-                       <div style={{width: "40%"}}>
-                        <Select 
-                                options={Object.entries(transports).map(([, value]) =>  ({value: value.carbonFootprint, label: value.name}))}
-                                classNamePrefix="reactSelectInput"
-                                isSearchable
-                                value={selectedTransport}
-                                onChange={e => {
-                                    setSelectedTransport(e)
-                                    console.log(e.value)    
-                                }}/>
+                       <div style={{marginTop: "1rem", display: "flex", justifyContent: "space-between"}}>
+                           <div style={{display: 'flex', justifyContent: 'center', alignItems: "center", width: "20%"}}>
+                                <input
+                                    type="number" 
+                                    min={0}
+                                    step={1}
+                                    value={distance}
+                                    onChange={e => setDistance(e.currentTarget.value)}/>
+                                <label>Kms</label>
+                           </div>
+                            <div style={{width: "60%"}}>
+                                <Select 
+                                    options={Object.entries(transports).map(([, value]) =>  ({value: value.carbonFootprint, label: value.name}))}
+                                    classNamePrefix="reactSelectInput"
+                                    isSearchable
+                                    value={selectedTransport}
+                                    placeholder="Moyen de transport"
+                                    onChange={e => {
+                                        setSelectedTransport(e) 
+                                    }}/>
+                            </div>
                         </div>
                     </div>
             </Modal>

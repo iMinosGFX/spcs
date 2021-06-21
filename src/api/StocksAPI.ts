@@ -13,7 +13,16 @@ function findProducerStocks(producerId: number, payload: SearchCombinedStocks): 
     .then(response => response.data)
 }
 
+
+function findSupport(payload: any): Promise<any>{
+    return axios.get(`http://localhost:80/api/resources/support/find`, {
+        params: payload
+    })
+    .then(response => response.data)
+}
+
 export default {
     create,
+    findSupport,
     findProducerStocks
 }

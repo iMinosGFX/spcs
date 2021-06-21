@@ -80,7 +80,6 @@ const ProductProducer = () => {
 
     const handleChangeInArray = (i: number, e: any) => {
         const {value, name} = e.target;
-        console.log(value, name)
         let _array = selectedProducts;
         _array[i][name] = value
         setSelectedProducts(_array)
@@ -150,8 +149,6 @@ const ProductProducer = () => {
                 widthPercentage={80}
                 title="Liste des produits à ajouter"
                 primaryBtn
-
-
                 onBtnClick={() => {
                     StocksAPI.create(selectedStorage.value, selectedProducts.map(x => {
                         return ({
@@ -165,6 +162,7 @@ const ProductProducer = () => {
                     .then(() => {
                         addToast("Les produits ont bien été ajouté à votre stock.", {appearance: "success"})
                         setSelectedProducts([])
+                        close()
                     })
                     .catch(() => addToast("Une erreur est survenue pendant la création de votre stock de produits.", {appearance: "warning"}))
                     

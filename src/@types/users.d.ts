@@ -31,6 +31,16 @@ export type ExtractUsersContent = {
     role: string
 }
 
+export type UserCreationReturn = {
+    id: number,
+    firstName: string,
+    lastName: string,
+    email: string
+    phone: string,
+    enabled: boolean,
+    role: string
+}
+
 export interface ExtractUsers extends PaginationObject {
     content: ExtractUsersContent[]
 }
