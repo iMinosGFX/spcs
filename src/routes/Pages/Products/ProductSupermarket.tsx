@@ -19,8 +19,6 @@ import { OrderItem } from '../../../@types/order';
 import FieldWithoutRegister from '../../../components/Inputs/FieldWithoutRegister';
 
 type createStorage = {
-    price:number
-    threshold:number,
     dateExpiration: string,
     productCode:string,
     quantity:number,
@@ -122,7 +120,7 @@ const ProductSupermarket = () => {
         dispatch(clearBreadCrumb())
         dispatch(setContentTitle('Produits'))
         dispatch(setSecondaryNav("none"))
-        StoragesAPI.findAllStoragesLinkToUser(connectedUser.id).then(data => setStoragesList(data.map(storage => ({value: storage.id, label: storage.name}))))
+        StoragesAPI.findAllStoragesLinkToUser(connectedUser.id).then(data => setStoragesList(data.filter(x => x.storageType === "SUPERMARKET_INVENTORY").map(storage => ({value: storage.id, label: storage.name}))))
         UsersAPI.findUsers({role: "PRODUCER"}).then(users => setProducersList(users.content.map(user => ({value: user.id, label: user.firstName}))))
     }, [])
 

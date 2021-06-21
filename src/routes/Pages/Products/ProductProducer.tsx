@@ -8,7 +8,7 @@ import StoragesAPI from '../../../api/StoragesAPI';
 import StocksAPI from '../../../api/StocksAPI';
 import { ExtractProductContent } from '../../../@types/products';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMinus, faPlus, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { faMinus, faMinusCircle, faPlus, faPlusCircle, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import _ from "lodash"
 import useModal from "@optalp/use-modal"
 import Select from 'react-select';
@@ -131,11 +131,11 @@ const ProductProducer = () => {
                                         <td>{product?.grade}</td>
                                         <td>{product?.quantity}</td>
                                         <td>{product?.origins}</td>
-                                        {_.find(selectedProducts, ['productCode', product.code]) ? 
-                                            <td><button className="btn bg-red" onClick={() => handleRemoveProduct(product)}><FontAwesomeIcon icon={faMinus}/></button></td>
+                                        {_.find(selectedProducts, ['productCode', product.code]) ?
+                                        <td><span className="table-icon" data-name="Retirer" onClick={() => handleRemoveProduct(product)}><FontAwesomeIcon icon={faMinusCircle} color="#a40101"/></span></td>
                                         :
-                                            <td><button className="btn bg-green" onClick={() => handleAddProduct(product)}><FontAwesomeIcon icon={faPlus}/></button></td>
-                                        }
+                                        <td><span className="table-icon" data-name="Ajouter" onClick={() => handleAddProduct(product)}><FontAwesomeIcon icon={faPlusCircle} color="#01a3a4"/></span></td>
+                                    }
                                     </tr>
                                 )
                             })}
