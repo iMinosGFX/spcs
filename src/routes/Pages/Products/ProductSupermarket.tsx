@@ -20,8 +20,6 @@ import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 
 
 type createStorage = {
-    price:number
-    threshold:number,
     dateExpiration: string,
     productCode:string,
     quantity:number,
@@ -106,7 +104,11 @@ const ProductSupermarket = () => {
             Header: "Ajouter",
             Cell: ({row}) => (
                 <div style={{display: 'flex', alignItems:'center'}}>
-                    <span className="table-icon" data-name="Ajouter"><FontAwesomeIcon icon={faPlusCircle} color="#01a3a4"/></span>
+                    {_.find(selectedProducts, ['productCode', row.code]) ?
+                        <td><span className="table-icon" data-name="Retirer" onClick={() => handleRemoveProduct({"productCode":row.id.productCode})}><FontAwesomeIcon icon={faMinusCircle} color="#a40101"/></span></td>
+                        :
+                        <td><span className="table-icon" data-name="Ajouter" onClick={() => handleAddProduct({"productCode":row.id.productCode})}><FontAwesomeIcon icon={faPlusCircle} color="#01a3a4"/></span></td>
+                    }                
                 </div>
             )
         }
@@ -116,13 +118,25 @@ const ProductSupermarket = () => {
         dispatch(clearBreadCrumb())
         dispatch(setContentTitle('Produits'))
         dispatch(setSecondaryNav("none"))
-        StoragesAPI.findAllStoragesLinkToUser(connectedUser.id).then(data => setStoragesList(data.map(storage => ({value: storage.id, label: storage.name}))))
+        StoragesAPI.findAllStoragesLinkToUser(connectedUser.id).then(data => setStoragesList(data.filter(x => x.storageType === "SUPERMARKET_INVENTORY").map(storage => ({value: storage.id, label: storage.name}))))
         UsersAPI.findUsers({role: "PRODUCER"}).then(users => setProducersList(users.content.map(user => ({value: user.id, label: user.firstName}))))
     }, [])
 
     
 
 
+    const handleAddProduct = (product: ExtractCombinedStocksContent) => {
+        setSelectedProducts([...selectedProducts, {
+            dateExpiration: null,
+            productCode:product.id.productCode,
+            quantity:null,
+            productName: product.productName
+        }]);
+    }
+
+    const handleRemoveProduct = (product: ExtractProductContent) => {
+        setSelectedProducts(selectedProducts.filter(p => p.productCode != product.code))
+    }
 
     const handleChangeInArray = (i: number, e: any) => {
         const {value, name} = e.target;
@@ -230,8 +244,6 @@ const ProductSupermarket = () => {
                            <tr>
                                <th>Nom du produit</th>
                                <th>Quantité à ajouter</th>
-                               <th>Prix</th>
-                               <th>Seuil</th>
                                <th>Date d'expiration</th>
                            </tr>
                        </thead>
@@ -241,8 +253,6 @@ const ProductSupermarket = () => {
                                    <tr key={sproduct.productCode}>
                                         <td>{sproduct.productName}</td>
                                         <td><input type="number" step={1} name="quantity" value={sproduct.quantity} onChange={(e) => handleChangeInArray(i, e)}/></td>
-                                        <td><input type="number" name="price" value={sproduct.price} onChange={(e) => handleChangeInArray(i, e)}/></td>
-                                        <td><input type="number" name="threshold" value={sproduct.threshold} onChange={(e) => handleChangeInArray(i, e)}/></td>
                                         <td><input type="date" name="dateExpiration" value={sproduct.dateExpiration} onChange={(e) => handleChangeInArray(i, e)}/></td>
                                    </tr>
                                )
