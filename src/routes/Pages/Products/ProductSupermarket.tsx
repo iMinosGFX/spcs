@@ -146,7 +146,7 @@ const ProductSupermarket = () => {
             dateExpiration: product.id.dateExpiration,
             quantity: "1",
             productCode: product.id.productCode,
-            storageId: product.storageId,
+            storageId: product.id.storageId,
             price: product.price,
             productName: product.productName,
             maxQuantity: product.totalQuantity
