@@ -59,9 +59,9 @@ export interface ExtractStorages extends PaginationObject {
 export type StoragePayload = {
     userId: number,
     storageType: string,
-    name: string,
+    name?: string,
     street?: string,
-    postalCode: string,
+    postalCode?: string,
     city?: string,
     country?: string,
     latitude?: string,

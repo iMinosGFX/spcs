@@ -64,7 +64,13 @@ const Login = () => {
                 latitude: null,
                 longitude: null,
             })
-            .then(() => history.push("/"))
+            .then(() => {
+                if(data.role === "SUPERMARKET"){
+                    StoragesAPI.createPositions(user.id)
+                    .then(() => history.push('/'))
+                }
+                history.push("/")
+            })
             .catch(error => console.log("Error Storage :", error))
         })
         .catch(error => console.log("Error User:", error))

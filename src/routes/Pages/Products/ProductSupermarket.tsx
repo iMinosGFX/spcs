@@ -15,6 +15,7 @@ import { useToasts } from 'react-toast-notifications';
 import ServerSideTable from '@optalp/react-server-side-table';
 import OrdersAPI from "../../../api/OrdersAPI"
 import { uniqBy } from 'lodash';
+import { rewriteMainContentBackground } from '../../../helpers/utils';
 
 type createStorage = {
     dateExpiration: string,
@@ -117,6 +118,7 @@ const ProductSupermarket = () => {
         dispatch(clearBreadCrumb())
         dispatch(setContentTitle('Produits'))
         dispatch(setSecondaryNav("none"))
+        rewriteMainContentBackground("#fff")
         StoragesAPI.findAllStoragesLinkToUser(connectedUser.id).then(data => setStoragesList(data.filter(x => x.storageType === "SUPERMARKET_INVENTORY").map(storage => ({value: storage.id, label: storage.name}))))
         UsersAPI.findUsers({role: "PRODUCER"}).then(users => setProducersList(users.content.map(user => ({value: user.id, label: user.firstName}))))
     }, [])

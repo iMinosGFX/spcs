@@ -12,6 +12,7 @@ import _ from 'lodash';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faRoute, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import StocksAPI from '../../../api/StocksAPI';
+import { rewriteMainContentBackground } from '../../../helpers/utils';
 
 const filterColumns: any[] = [
 ]
@@ -84,6 +85,7 @@ const StoragesList = () => {
         dispatch(clearBreadCrumb())
         dispatch(setContentTitle('Stockages'))
         dispatch(setSecondaryNav("none"))
+        rewriteMainContentBackground("#fff")
         loadStorages()
     }, [])
 

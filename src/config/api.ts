@@ -8,4 +8,5 @@ export const API_PRODUCTS = API_RESOURCES+"/products"
 export const API_STOCKS = API_RESOURCES+"/stocks"
 export const API_STORAGES = API_RESOURCES+"/storages"
 export const API_ORDERS = API_RESOURCES+"/orders"
+export const API_INDICATORS = API_RESOURCES+"/indicators"
 

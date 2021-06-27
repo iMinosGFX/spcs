@@ -8,6 +8,7 @@ import SecondaryNav from "../../components/DashboardNavigation/SecondaryNav"
 import ParameterProfile from './../../components/Parameters/ParameterProfile';
 import _ from 'lodash';
 import { isMobile } from 'react-device-detect';
+import { rewriteMainContentBackground } from '../../helpers/utils';
 
 const Settings = () => {
 
@@ -20,7 +21,7 @@ const Settings = () => {
         dispatch(setNewBreadCrumb([{name:"Paramètres", link:"/app/settings", statut:"active"}]))
         dispatch(setContentTitle('Paramètres'))
         dispatch(setSecondaryNav(isMobile ? 'collapse' : 'display'))
-
+        rewriteMainContentBackground("#fff")
         if(!!connectedUser){
             let roles = [...connectedUser.authorities, "USER"];
             

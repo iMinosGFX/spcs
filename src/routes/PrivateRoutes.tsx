@@ -73,7 +73,7 @@ const PrivateRoutes = () => {
                         <Breadcrumb/>
                         <h2 className="align page-title">{contentTitle}</h2>
                     </div>
-                    <div className="main-content">
+                    <div id="main-content">
                         <Suspense fallback={<div>Chargement...</div>}>
                             <Switch>
                                 {allRoutes.map((route)=> {

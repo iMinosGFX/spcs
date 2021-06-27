@@ -2,18 +2,17 @@ import React, {useState, useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearBreadCrumb, setContentTitle, setSecondaryNav } from '../../../store/navigation/action'
 import ProductsAPI from '../../../api/ProductsAPI';
-import { ExtractStockContent, ExtractStock } from '../../../@types/stocks'; 
-import { ExtractStorageContent } from '../../../@types/storages'; 
 import StoragesAPI from '../../../api/StoragesAPI';
 import StocksAPI from '../../../api/StocksAPI';
 import { ExtractProductContent } from '../../../@types/products';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMinus, faMinusCircle, faPlus, faPlusCircle, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { faMinusCircle, faPlusCircle, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import _ from "lodash"
 import useModal from "@optalp/use-modal"
 import Select from 'react-select';
 import { UserState } from '../../../store/user/reducer';
 import { useToasts } from 'react-toast-notifications';
+import { rewriteMainContentBackground } from '../../../helpers/utils';
 
 
 
@@ -46,8 +45,8 @@ const ProductProducer = () => {
         dispatch(clearBreadCrumb())
         dispatch(setContentTitle('Produits'))
         dispatch(setSecondaryNav("none"))
+        rewriteMainContentBackground("#fff")
         StoragesAPI.findAllStoragesLinkToUser(connectedUser.id).then(data => setStoragesList(data.map(storage => ({value: storage.id, label: storage.name}))))
-
     }, [])
 
 

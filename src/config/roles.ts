@@ -1,4 +1,4 @@
-import {faHome, faCog, faChartBar, faCartPlus, faWarehouse} from '@fortawesome/free-solid-svg-icons'
+import { faHome, faCog, faChartBar, faCartPlus, faWarehouse, faShoppingCart, faCommentDollar, faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons';
 
 /**
  * Nav Link: module = 1
@@ -30,8 +30,22 @@ components.changeTimeTwo
 */
 
 const components = {
-    home: {
-        component: 'Home',
+    homeAdmin: {
+        component: 'DashboardAdmin',
+        url: '/home',
+        title: 'Statistiques',
+        icon: faChartBar,
+        module: 1,
+    },
+    homeSupermarket: {
+        component: 'DashboardSupermarket',
+        url: '/home',
+        title: 'Statistiques',
+        icon: faChartBar,
+        module: 1,
+    },
+    homeProducer: {
+        component: 'DashboardProducer',
         url: '/home',
         title: 'Statistiques',
         icon: faChartBar,
@@ -56,6 +70,27 @@ const components = {
         url: '/inventory',
         title: 'Inventaire',
         icon: faWarehouse,
+        module: 1,
+    },
+    orders: {
+        component: 'OrdersList',
+        url: '/orders',
+        title: 'Liste des commandes',
+        icon: faShoppingCart,
+        module: 1,
+    },
+    comments: {
+        component: 'CommentsList',
+        url: '/comments',
+        title: 'Liste des commentaires',
+        icon: faCommentDollar,
+        module: 1,
+    },
+    viewMap: {
+        component: 'ViewMap',
+        url: '/map',
+        title: 'Organisation du magasin',
+        icon: faMapMarkedAlt,
         module: 1,
     },
     settings: {
@@ -84,7 +119,7 @@ const modules = {
 const rolesConfig = {
     ROLE_ADMIN: {
         routes: [
-            components.home,
+            components.homeAdmin,
             components.inventory,
             components.settings,
             components.settingProfile,
@@ -92,7 +127,7 @@ const rolesConfig = {
     },
     ADMIN: {
         routes: [
-            components.home,
+            components.homeAdmin,
             components.inventory,
             components.settings,
             components.settingProfile,
@@ -100,16 +135,19 @@ const rolesConfig = {
     },
     SUPERMARKET: {
         routes: [
-            components.home,
+            components.homeSupermarket,
             components.productSupermarket,
             components.inventory,
+            components.orders,
+            components.comments,
+            components.viewMap,
             components.settings,
             components.settingProfile,
         ]
     },
     PRODUCER: {
         routes: [
-            components.home,
+            components.homeProducer,
             components.productProducer,
             components.inventory,
             components.settings,
@@ -118,8 +156,6 @@ const rolesConfig = {
     },
     USER:{
         routes: [
-            components.home,
-            components.inventory,
             components.settings,
             components.settingProfile,
         ]
